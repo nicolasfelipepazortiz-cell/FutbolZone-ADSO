@@ -142,4 +142,13 @@ export const api = {
   obtenerResumenReportes: () => request<any>("/reportes/resumen"),
   obtenerReservasPorCancha: () => request<any>("/reportes/reservas-por-cancha"),
   obtenerIngresosMensuales: () => request<any>("/reportes/ingresos-mensuales"),
+
+  // Reseñas
+  obtenerResenas: (cancha_id?: number) =>
+    request<any>(cancha_id ? `/resenas?cancha_id=${cancha_id}` : "/resenas"),
+  crearResena: (datos: { cancha_id: number; rating: number; comentario: string }) =>
+    request<any>("/resenas", {
+      method: "POST",
+      body: JSON.stringify(datos),
+    }),
 };

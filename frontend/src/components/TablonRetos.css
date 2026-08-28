@@ -1,0 +1,196 @@
+/* ===================================================
+   FUTBOLZONE — TABLÓN DE RETOS & BUSCADOR DE JUGADORES
+   =================================================== */
+
+.fz-retos-section {
+  padding: 50px 20px 30px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.fz-retos-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.fz-retos-header h2 {
+  font-size: 30px;
+  color: #0f172a;
+  margin: 8px 0;
+  font-weight: 800;
+}
+
+.fz-retos-header p {
+  color: #64748b;
+  font-size: 15px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.fz-btn-create-reto {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 12px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  transition: all 0.25s ease;
+}
+
+.fz-btn-create-reto:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+}
+
+.fz-form-reto-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  border: 1.5px solid #86efac;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.1);
+  margin-bottom: 30px;
+  animation: fzDropIn 0.3s ease;
+}
+
+.fz-retos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.fz-reto-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.fz-reto-card:hover {
+  transform: translateY(-4px);
+  border-color: #10b981;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+.fz-reto-card.completo {
+  opacity: 0.85;
+  background: #f8fafc;
+}
+
+.fz-reto-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.fz-reto-badge-cancha {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.fz-reto-status-pill {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.fz-reto-status-pill.open { background: #dcfce7; color: #15803d; }
+.fz-reto-status-pill.full { background: #fee2e2; color: #b91c1c; }
+
+.fz-reto-card h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.fz-reto-datetime {
+  font-size: 12.5px;
+  color: #64748b;
+  margin: 0 0 14px;
+  font-weight: 600;
+}
+
+.fz-reto-meta-box {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.fz-reto-desc {
+  font-size: 12.5px;
+  color: #475569;
+  font-style: italic;
+  line-height: 1.4;
+  margin: 0 0 14px;
+  flex: 1;
+}
+
+.fz-reto-roster {
+  margin-bottom: 16px;
+}
+
+.fz-roster-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.fz-player-tag {
+  background: #e0f2fe;
+  color: #0369a1;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.fz-btn-join-reto {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.fz-btn-join-reto:hover:not(.disabled) {
+  background: #10b981;
+  transform: translateY(-2px);
+}
+
+.fz-btn-join-reto.disabled {
+  background: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+/* Modo oscuro */
+.dark-mode .fz-retos-header h2 { color: #ffffff; }
+.dark-mode .fz-reto-card {
+  background: #0c2b1e;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+.dark-mode .fz-reto-card h4 { color: #ffffff; }
+.dark-mode .fz-reto-meta-box { background: #071f15; color: #ffffff; }
+.dark-mode .fz-reto-desc { color: #cbd5e1; }

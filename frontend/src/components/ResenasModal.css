@@ -1,0 +1,234 @@
+/* ===================================================
+   FUTBOLZONE — MODAL DE RESEÑAS Y CALIFICACIONES
+   =================================================== */
+
+.fz-resenas-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(6, 21, 14, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2100;
+  padding: 20px;
+}
+
+.fz-resenas-card {
+  background: #ffffff;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  animation: fzDropIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-close-resenas {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: #64748b;
+  font-weight: bold;
+}
+
+.fz-resenas-badge {
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.fz-resenas-header h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #0f172a;
+}
+
+.fz-rating-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.fz-stars-big {
+  color: #f59e0b;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.fz-resena-form {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.fz-resena-form h4 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.fz-star-picker {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.fz-star-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.fz-star-btn.active {
+  color: #f59e0b;
+}
+
+.fz-star-btn:hover {
+  transform: scale(1.2);
+}
+
+.fz-star-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #10b981;
+  margin-left: 8px;
+}
+
+.fz-resena-form textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.fz-btn-submit-resena {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.fz-btn-submit-resena:hover {
+  background: #059669;
+}
+
+.fz-resena-msg.exito {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.fz-resena-msg.error {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.fz-divider-resenas {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 20px 0;
+}
+
+.fz-resenas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.fz-resena-item {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.fz-resena-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.fz-resena-top strong {
+  font-size: 13px;
+  color: #0f172a;
+  display: block;
+}
+
+.fz-resena-stars {
+  color: #f59e0b;
+  font-size: 12px;
+}
+
+.fz-resena-date {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.fz-resena-comment {
+  margin: 0;
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.fz-login-prompt-resena {
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: #475569;
+  margin-top: 14px;
+}

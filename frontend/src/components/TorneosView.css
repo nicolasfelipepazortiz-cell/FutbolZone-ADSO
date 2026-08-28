@@ -1,0 +1,243 @@
+/* ===================================================
+   FUTBOLZONE — MÓDULO DE TORNEOS, FIXTURE & POSICIONES
+   =================================================== */
+
+.fz-torneos-container {
+  padding: 10px 0;
+}
+
+.fz-torneos-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.fz-torneo-badge {
+  background: #fef3c7;
+  color: #b45309;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.fz-torneos-topbar h2 {
+  margin: 0 0 4px;
+  font-size: 24px;
+  color: #0f172a;
+}
+
+.fz-torneos-topbar p {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.fz-torneos-nav-pills {
+  display: flex;
+  gap: 8px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 999px;
+}
+
+.fz-tnav-pill {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fz-tnav-pill.active {
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.fz-torneo-view-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* TABLA DE POSICIONES */
+.fz-standings-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13.5px;
+}
+
+.fz-standings-table th {
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 12px 14px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.fz-standings-table td {
+  padding: 14px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.fz-standings-table tr.leader {
+  background: #f0fdf4;
+}
+
+.fz-standings-table tr.playoff td:first-child {
+  border-left: 3px solid #10b981;
+}
+
+.pos-number {
+  display: inline-flex;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  font-weight: 800;
+  font-size: 11px;
+  align-items: center;
+  justify-content: center;
+}
+
+.pos-number.pos-1 { background: #fef08a; color: #854d0e; }
+.pos-number.pos-2 { background: #e2e8f0; color: #475569; }
+.pos-number.pos-3 { background: #fed7aa; color: #9a3412; }
+
+.pts-highlight {
+  color: #10b981;
+  font-size: 15px;
+}
+
+.dg-positive {
+  color: #15803d;
+  font-weight: 700;
+}
+
+.dg-negative {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.fz-table-legend-notes {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* FIXTURE */
+.fz-fixture-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fz-match-fixture-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px 20px;
+  transition: all 0.2s ease;
+}
+
+.fz-match-fixture-card:hover {
+  border-color: #10b981;
+}
+
+.fz-match-header-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.fz-match-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.fz-match-badge.done { background: #dcfce7; color: #15803d; }
+.fz-match-badge.scheduled { background: #e0f2fe; color: #0369a1; }
+
+.fz-match-teams-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.fz-team-side {
+  flex: 1;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.fz-team-side.local { text-align: right; padding-right: 20px; }
+.fz-team-side.visitor { text-align: left; padding-left: 20px; }
+
+.fz-match-score-board {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.vs-text {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.fz-admin-score-editor {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.fz-btn-score-quick {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Modo Oscuro */
+.dark-mode .fz-torneos-topbar h2 { color: #ffffff; }
+.dark-mode .fz-torneo-view-card { background: #0c2b1e; border-color: rgba(255, 255, 255, 0.1); }
+.dark-mode .fz-standings-table th { background: #071f15; color: #cbd5e1; border-color: rgba(255, 255, 255, 0.1); }
+.dark-mode .fz-standings-table td { border-color: rgba(255, 255, 255, 0.06); color: #ffffff; }
+.dark-mode .fz-match-fixture-card { background: #071f15; border-color: rgba(255, 255, 255, 0.1); }
+.dark-mode .fz-team-side { color: #ffffff; }

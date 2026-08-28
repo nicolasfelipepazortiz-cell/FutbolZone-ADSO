@@ -22,6 +22,7 @@ from app.routes.pago_routes     import router as pago_router
 from app.routes.horario_routes  import router as horario_router
 from app.routes.empleado_routes import router as empleado_router
 from app.routes.reporte_routes  import router as reporte_router
+from app.routes.resena_routes   import router as resena_router
 
 from app.middleware.error_handler import (
     http_exception_handler,
@@ -124,6 +125,7 @@ app.include_router(pago_router)
 app.include_router(horario_router)
 app.include_router(empleado_router)
 app.include_router(reporte_router)
+app.include_router(resena_router)
 
 
 @app.get("/", tags=["Root"])

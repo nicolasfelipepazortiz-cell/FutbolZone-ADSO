@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Canchas.css";
 import { api } from "../services/api";
+import ResenasModal from "./ResenasModal";
 
 interface CanchasProps {
   onSelectCancha: (cancha: any) => void;
@@ -10,6 +11,7 @@ function Canchas({ onSelectCancha }: CanchasProps) {
   const [canchas, setCanchas] = useState<any[]>([]);
   const [cargando, setCargando] = useState<boolean>(true);
   const [filtroCategoria, setFiltroCategoria] = useState<string>("todas");
+  const [canchaParaResenas, setCanchaParaResenas] = useState<any | null>(null);
 
   useEffect(() => {
     cargarCanchas();
@@ -42,7 +44,7 @@ function Canchas({ onSelectCancha }: CanchasProps) {
           { id: 3, nombre: "Cancha Fútbol 11", tipo: "Fútbol 11", descripcion: "La experiencia completa del fútbol profesional.", precio_hora: 100000, capacidad: 22, activa: true, rating: 5.0, resenas: 45 },
         ]);
       }
-    } catch (err: any) {
+    } catch {
       setCanchas([
         { id: 1, nombre: "Cancha Fútbol 5", tipo: "Fútbol 5", descripcion: "Ideal para partidos rápidos y divertidos entre amigos.", precio_hora: 50000, capacidad: 10, activa: true, rating: 4.9, resenas: 38 },
         { id: 2, nombre: "Cancha Fútbol 7", tipo: "Fútbol 7", descripcion: "Para un juego más táctico y dinámico con más jugadores.", precio_hora: 70000, capacidad: 14, activa: true, rating: 4.8, resenas: 29 },
@@ -116,10 +118,18 @@ function Canchas({ onSelectCancha }: CanchasProps) {
                 <div className="cancha-card-body">
                   <h3>⚽ {cancha.nombre}</h3>
 
-                  <div className="cancha-rating-box">
+                  <button
+                    type="button"
+                    className="cancha-rating-box"
+                    style={{ background: "none", border: "none", cursor: "pointer", padding: "4px 0", display: "flex", alignItems: "center", gap: "6px" }}
+                    onClick={() => setCanchaParaResenas(cancha)}
+                    title="Ver opiniones y calificaciones"
+                  >
                     <span className="stars-text">⭐ {ratingVal}</span>
-                    <span className="resenas-text">({resenasCount} reseñas)</span>
-                  </div>
+                    <span className="resenas-text" style={{ textDecoration: "underline", color: "#059669", fontSize: "12px", fontWeight: 700 }}>
+                      ({resenasCount} opiniones)
+                    </span>
+                  </button>
 
                   <p className="cancha-descripcion">{cancha.descripcion}</p>
                 </div>
@@ -137,6 +147,15 @@ function Canchas({ onSelectCancha }: CanchasProps) {
             );
           })}
         </div>
+      )}
+
+      {/* Modal de Reseñas */}
+      {canchaParaResenas && (
+        <ResenasModal
+          cancha={canchaParaResenas}
+          onClose={() => setCanchaParaResenas(null)}
+          onResenaAgregada={() => cargarCanchas()}
+        />
       )}
     </section>
   );

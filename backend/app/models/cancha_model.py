@@ -30,3 +30,4 @@ class CanchaModel(Base):
     reservas = relationship("ReservaModel", back_populates="cancha")
     torneos  = relationship("TorneoModel",  back_populates="cancha")
     horarios = relationship("HorarioModel", back_populates="cancha")
+    resenas  = relationship("ResenaModel",  back_populates="cancha")

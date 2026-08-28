@@ -884,6 +884,52 @@
   flex-wrap: wrap;
 }
 
+.fz-table-export-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.fz-btn-export-excel {
+  background: #065f46;
+  color: #ffffff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.fz-btn-export-excel:hover {
+  background: #047857;
+  transform: translateY(-2px);
+}
+
+.fz-btn-print-report {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.fz-btn-print-report:hover {
+  background: #1e293b;
+  transform: translateY(-2px);
+}
+
 .fz-filter-pill {
   background: #f1f5f9;
   border: 1px solid #e2e8f0;

@@ -143,6 +143,28 @@ function DashboardAdmin({ onLogout, onPublicarAnuncio }: DashboardAdminProps) {
     }
   };
 
+  const exportarExcelReservas = () => {
+    const encabezados = "ID,Cliente,Cancha,Fecha,Hora Inicio,Hora Fin,Total COP,Metodo Pago,Estado,Notas\n";
+    const filas = reservasFiltradas.map((r) => {
+      const metodo = r.metodo_pago || (r.notas?.includes("NEQUI") ? "Nequi" : r.notas?.includes("DAVIPLATA") ? "Daviplata" : r.notas?.includes("TARJETA") ? "Tarjeta" : "Efectivo");
+      const notasLimpia = (r.notas || "").replace(/,/g, " - ").replace(/\n/g, " ");
+      return `${r.id},"${r.cliente || "Cliente"}","${r.cancha_nombre || "Cancha Central"}",${r.fecha},${r.hora_inicio.substring(0, 5)},${r.hora_fin.substring(0, 5)},${Number(r.precio_total) || 50000},${metodo},${r.estado},"${notasLimpia}"\n`;
+    });
+
+    const blob = new Blob(["\uFEFF" + encabezados + filas.join("")], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `Reporte_Reservas_FutbolZone_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const imprimirReporteFinanciero = () => {
+    window.print();
+  };
+
   const guardarAnuncioGlobal = (e: React.FormEvent) => {
     e.preventDefault();
     if (onPublicarAnuncio) {
@@ -758,6 +780,25 @@ function DashboardAdmin({ onLogout, onPublicarAnuncio }: DashboardAdminProps) {
               >
                 🔴 Canceladas
               </button>
+
+              <div className="fz-table-export-actions">
+                <button
+                  type="button"
+                  className="fz-btn-export-excel"
+                  onClick={exportarExcelReservas}
+                  title="Descargar listado en archivo Excel / CSV"
+                >
+                  📊 Exportar Excel (.CSV)
+                </button>
+                <button
+                  type="button"
+                  className="fz-btn-print-report"
+                  onClick={imprimirReporteFinanciero}
+                  title="Generar e imprimir reporte en PDF"
+                >
+                  🖨️ Reporte PDF
+                </button>
+              </div>
             </div>
 
             <div className="fz-table-responsive">

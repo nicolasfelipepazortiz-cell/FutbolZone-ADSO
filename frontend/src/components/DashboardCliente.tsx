@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import "./DashboardCliente.css";
 import { api, setStoredUser } from "../services/api";
 import TicketReservaModal from "./TicketReservaModal";
+import TorneosView from "./TorneosView";
+import TablonRetos from "./TablonRetos";
 
 interface DashboardClienteProps {
   usuario: any;
@@ -21,7 +23,7 @@ const AVATAR_PRESETS = [
 ];
 
 function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardClienteProps) {
-  const [tabActiva, setTabActiva] = useState<"resumen" | "reservas" | "torneos" | "perfil">("resumen");
+  const [tabActiva, setTabActiva] = useState<"resumen" | "reservas" | "torneos" | "retos" | "perfil">("resumen");
   const [misReservas, setMisReservas] = useState<any[]>([]);
   const [cargando, setCargando] = useState<boolean>(true);
   const [reservaParaTicket, setReservaParaTicket] = useState<any | null>(null);
@@ -234,7 +236,16 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
             onClick={() => setTabActiva("torneos")}
           >
             <span className="fz-nav-ico">🏆</span>
-            <span>Torneos Activos</span>
+            <span>Torneos & Fixture</span>
+          </button>
+
+          <button
+            type="button"
+            className={`fz-client-nav-btn ${tabActiva === "retos" ? "active" : ""}`}
+            onClick={() => setTabActiva("retos")}
+          >
+            <span className="fz-nav-ico">📢</span>
+            <span>Tablón de Retos</span>
           </button>
 
           <button
@@ -265,7 +276,8 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
             <h1 className="fz-main-title">
               {tabActiva === "resumen" && `¡Hola de nuevo, ${usuario?.nombre || "Crack"}! ⚽`}
               {tabActiva === "reservas" && "Historial y Estado de Mis Reservas"}
-              {tabActiva === "torneos" && "Campeonatos y Torneos Comunitarios"}
+              {tabActiva === "torneos" && "Campeonatos, Tabla de Posiciones & Fixture"}
+              {tabActiva === "retos" && "Comunidad: Búsqueda de Jugadores & Retos"}
               {tabActiva === "perfil" && "Configuración de Mi Cuenta"}
             </h1>
             {cargando && <div style={{ fontSize: "12px", color: "#10b981", fontWeight: 700, marginTop: "4px" }}>● Sincronizando reservas...</div>}
@@ -580,55 +592,17 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
           </div>
         )}
 
-        {/* ── VISTA 3: TORNEOS ── */}
+        {/* ── VISTA 3: TORNEOS, TABLA DE POSICIONES & FIXTURE ── */}
         {tabActiva === "torneos" && (
-          <div className="fz-subview-card">
-            <h3>🏆 Torneos & Copas Disponibles</h3>
-            <p style={{ color: "#64748b", marginBottom: "20px" }}>Inscribe a tu equipo en los campeonatos oficiales de FutbolZone.</p>
-
-            <div className="fz-canchas-grid-cards">
-              <div className="fz-cancha-card">
-                <div className="fz-cancha-badge">Fútbol 5</div>
-                <h4>Copa Relámpago Nocturna</h4>
-                <p className="fz-cancha-desc">Torneo de eliminación directa los fines de semana. Incluye arbitraje profesional y petos.</p>
-                <div className="fz-cancha-meta">
-                  <div>
-                    <span className="fz-meta-label">Inscripción:</span>
-                    <strong>$150.000 / equipo</strong>
-                  </div>
-                  <div>
-                    <span className="fz-meta-label">Premio Mayor:</span>
-                    <strong style={{ color: "#10b981" }}>$1.200.000 COP</strong>
-                  </div>
-                </div>
-                <button type="button" className="fz-btn-primary" style={{ width: "100%" }}>
-                  Solicitar Inscripción
-                </button>
-              </div>
-
-              <div className="fz-cancha-card">
-                <div className="fz-cancha-badge">Fútbol 7</div>
-                <h4>Torneo Empresarial & Amigos</h4>
-                <p className="fz-cancha-desc">Fase de grupos y liguilla final. Trofeos, medallas y transmisión en vivo de las semifinales.</p>
-                <div className="fz-cancha-meta">
-                  <div>
-                    <span className="fz-meta-label">Inscripción:</span>
-                    <strong>$250.000 / equipo</strong>
-                  </div>
-                  <div>
-                    <span className="fz-meta-label">Premio Mayor:</span>
-                    <strong style={{ color: "#10b981" }}>$2.500.000 COP</strong>
-                  </div>
-                </div>
-                <button type="button" className="fz-btn-primary" style={{ width: "100%" }}>
-                  Solicitar Inscripción
-                </button>
-              </div>
-            </div>
-          </div>
+          <TorneosView />
         )}
 
-        {/* ── VISTA 4: PERFIL & FOTO ── */}
+        {/* ── VISTA 4: TABLÓN DE RETOS / BUSCADOR DE JUGADORES ── */}
+        {tabActiva === "retos" && (
+          <TablonRetos />
+        )}
+
+        {/* ── VISTA 5: PERFIL & FOTO ── */}
         {tabActiva === "perfil" && (
           <div className="fz-subview-card" style={{ maxWidth: "750px" }}>
             <h3>👤 Mi Perfil & Foto de Jugador</h3>
