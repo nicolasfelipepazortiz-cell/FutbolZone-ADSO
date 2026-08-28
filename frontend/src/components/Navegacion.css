@@ -1,0 +1,113 @@
+/* ===================================================
+   FUTBOLZONE — NAVEGACIÓN & INTERACCIONES
+   =================================================== */
+
+.navegacion ul {
+  display: flex;
+  list-style: none;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-link {
+  color: #334155;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13.5px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.08);
+  transform: translateY(-1px);
+}
+
+.nav-link:active {
+  transform: scale(0.96);
+}
+
+/* ── BOTÓN DE MODO OSCURO / CLARO ── */
+.btn-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 12px;
+  color: #1e293b;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-theme-toggle:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.btn-theme-toggle:active {
+  transform: scale(0.94);
+}
+
+.btn-theme-toggle.dark {
+  background: #0f172a;
+  color: #f8fafc;
+  border-color: #334155;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.btn-theme-toggle.dark:hover {
+  background: #1e293b;
+  border-color: #10b981;
+}
+
+.theme-icon {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.btn-theme-toggle:hover .theme-icon {
+  transform: rotate(20deg) scale(1.15);
+}
+
+/* ── BOTÓN DASHBOARD ── */
+.nav-dashboard-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.35);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-dashboard-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(16, 185, 129, 0.45);
+}
+
+.nav-dashboard-btn:active {
+  transform: scale(0.94);
+}
+
+@media (max-width: 900px) {
+  .navegacion ul {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+}

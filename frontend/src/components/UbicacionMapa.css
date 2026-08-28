@@ -1,0 +1,118 @@
+/* UbicacionMapa.css */
+.ubicacion-section {
+  padding: 50px 20px;
+  background: #f8fafc;
+}
+
+.ubicacion-container {
+  max-width: 1050px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.ubicacion-container h2 {
+  font-size: 28px;
+  color: #1e293b;
+  margin: 6px 0;
+}
+
+.ubicacion-sub {
+  color: #64748b;
+  font-size: 15px;
+  margin-bottom: 30px;
+}
+
+.ubicacion-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 25px;
+  align-items: center;
+}
+
+.ubicacion-info-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  text-align: left;
+}
+
+.ubicacion-info-card h3 {
+  font-size: 20px;
+  color: #15803d;
+  margin: 0 0 20px;
+}
+
+.info-item {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.info-icon {
+  font-size: 22px;
+}
+
+.info-item strong {
+  font-size: 14px;
+  color: #1e293b;
+  display: block;
+}
+
+.info-item p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 2px 0 0;
+}
+
+.ubicacion-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.btn-map-app {
+  background: #15803d;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  transition: background 0.2s ease;
+}
+
+.btn-map-app:hover {
+  background: #166534;
+  color: white;
+}
+
+.btn-waze-app {
+  background: #0284c7;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  transition: background 0.2s ease;
+}
+
+.btn-waze-app:hover {
+  background: #0369a1;
+  color: white;
+}
+
+.ubicacion-map-frame {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+@media (max-width: 768px) {
+  .ubicacion-grid {
+    grid-template-columns: 1fr;
+  }
+}

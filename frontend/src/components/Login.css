@@ -1,0 +1,274 @@
+/* ===================================================
+   FUTBOLZONE — LOGIN (ESTÉTICA DOS TONOS / CURVED CARD)
+   =================================================== */
+
+.fz-auth-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: #f1f5f9;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.fz-auth-phone-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 8px 16px -4px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+/* ── CABECERA SUPERIOR OSCURA CON CURVA ── */
+.fz-auth-top-dark {
+  background: linear-gradient(135deg, #071f15 0%, #0c2b1f 100%);
+  color: #ffffff;
+  padding: 35px 25px 50px;
+  text-align: center;
+  position: relative;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 8px 20px rgba(7, 31, 21, 0.25);
+}
+
+.fz-auth-btn-back {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fz-auth-btn-back:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.fz-auth-avatar-circle {
+  width: 80px;
+  height: 80px;
+  background: #ffffff;
+  border-radius: 50%;
+  margin: 10px auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border: 4px solid #10b981;
+}
+
+.fz-auth-avatar-icon {
+  font-size: 38px;
+}
+
+.fz-auth-brand-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #6ee7b7;
+}
+
+/* ── CUERPO BLANCO Y FORMULARIO ── */
+.fz-auth-body {
+  padding: 28px 32px 35px;
+}
+
+.fz-auth-header-text {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.fz-auth-header-text h2 {
+  margin: 0 0 6px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.fz-auth-header-text p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* DEMO BOX 1-CLIC */
+.fz-demo-box {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.fz-demo-title {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fz-demo-btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+.fz-demo-btn {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fz-demo-btn.admin {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.fz-demo-btn.cliente {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.fz-demo-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+/* FORMULARIO */
+.fz-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fz-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.fz-input-group label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.fz-input-group input {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.fz-input-group input:focus {
+  background: #ffffff;
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+}
+
+.fz-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.fz-password-wrapper input {
+  width: 100%;
+}
+
+.fz-toggle-eye {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  opacity: 0.6;
+}
+
+.fz-auth-alert {
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.fz-auth-alert.exito {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.fz-auth-alert.error {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.fz-btn-auth-submit {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(16, 185, 129, 0.35);
+  transition: all 0.2s ease;
+  margin-top: 6px;
+}
+
+.fz-btn-auth-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(16, 185, 129, 0.45);
+}
+
+.fz-btn-auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.fz-auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.fz-auth-link {
+  background: none;
+  border: none;
+  color: #10b981;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}

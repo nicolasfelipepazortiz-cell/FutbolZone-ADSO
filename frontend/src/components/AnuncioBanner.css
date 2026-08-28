@@ -1,0 +1,120 @@
+/* ===================================================
+   FUTBOLZONE — BANNER DE ANUNCIO & PROMOCIÓN EN VIVO
+   =================================================== */
+
+.fz-promo-banner {
+  background: linear-gradient(90deg, #071f15 0%, #0d3827 50%, #071f15 100%);
+  color: #ffffff;
+  padding: 12px 60px 12px 24px;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1000;
+  animation: fzSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s ease;
+}
+
+.fz-promo-container {
+  max-width: 1250px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fz-promo-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 13.5px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.fz-promo-pill {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 4px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+  animation: fzPulse 2s infinite;
+  display: inline-flex;
+  align-items: center;
+}
+
+.fz-promo-title {
+  font-weight: 800;
+  color: #6ee7b7;
+  letter-spacing: 0.3px;
+}
+
+.fz-promo-divider {
+  color: rgba(255, 255, 255, 0.35);
+  font-weight: 300;
+}
+
+.fz-promo-msg {
+  color: #f8fafc;
+  font-weight: 500;
+}
+
+/* ── BOTÓN X FIJO EN LA ESQUINA DERECHA ── */
+.fz-promo-close-btn {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #e2e8f0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.fz-promo-close-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  transform: translateY(-50%) rotate(90deg) scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.fz-promo-close-btn:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+@keyframes fzSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fzPulse {
+  0% { transform: scale(1); box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4); }
+  50% { transform: scale(1.06); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.6); }
+  100% { transform: scale(1); box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4); }
+}
+
+@media (max-width: 768px) {
+  .fz-promo-banner { padding: 10px 48px 10px 16px; }
+  .fz-promo-divider { display: none; }
+  .fz-promo-content { gap: 6px; font-size: 12.5px; }
+}

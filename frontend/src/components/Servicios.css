@@ -1,0 +1,142 @@
+/* ================================
+   SERVICIOS FUTBOLZONE
+   ================================ */
+
+.servicios-section {
+  padding: 80px 20px;
+  background: #f3f7f4;
+  text-align: center;
+}
+
+.servicios-section h2 {
+  color: #063b24;
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.servicios-descripcion {
+  color: #6b7280;
+  font-size: 17px;
+  margin-bottom: 40px;
+}
+
+/* TARJETAS */
+
+.servicios-grid {
+  max-width: 1100px;
+  margin: auto;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.servicio-card {
+  width: 300px;
+  padding: 30px 25px;
+
+  background: white;
+
+  border: 1px solid #dce5de;
+  border-radius: 15px;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+  transition: 0.3s;
+}
+
+.servicio-card:hover {
+  transform: translateY(-8px);
+  border-color: #22c55e;
+}
+
+.servicio-card h3 {
+  color: #063b24;
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.servicio-card p {
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* BOTÓN */
+
+.servicio-card button {
+  width: 100%;
+  padding: 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #0f7a43;
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.servicio-card button:hover {
+  background: #063b24;
+}
+
+/* SERVICIO SELECCIONADO */
+
+.servicio-seleccionado {
+  max-width: 500px;
+
+  margin: 35px auto 0;
+
+  padding: 18px;
+
+  background: #dcfce7;
+
+  border: 1px solid #86efac;
+
+  border-radius: 10px;
+
+  color: #166534;
+
+  animation: aparecer 0.3s ease;
+}
+
+.servicio-seleccionado p {
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+/* ANIMACIÓN */
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+  .servicios-section {
+    padding: 60px 15px;
+  }
+
+  .servicios-section h2 {
+    font-size: 30px;
+  }
+
+  .servicio-card {
+    width: 100%;
+    max-width: 350px;
+  }
+}
