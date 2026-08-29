@@ -191,7 +191,7 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
 
   // Filtrado temporal
   let totalInvertido = totalInvertidoReal;
-  let partidosJugados = partidosJugadosReal;
+  const partidosJugados = partidosJugadosReal;
   let subInversion = totalInvertidoReal === 0 ? "Sin gastos registrados aún" : "Total invertido en canchas";
 
   if (totalInvertidoReal > 0) {
