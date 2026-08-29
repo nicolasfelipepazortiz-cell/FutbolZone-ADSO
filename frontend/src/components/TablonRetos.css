@@ -23,17 +23,52 @@
 .fz-retos-header p {
   color: #64748b;
   font-size: 15px;
-  max-width: 620px;
+  max-width: 650px;
   margin: 0 auto;
+}
+
+.fz-retos-top-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.fz-retos-filters {
+  display: flex;
+  gap: 8px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 999px;
+}
+
+.fz-filter-chip {
+  background: none;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fz-filter-chip.active {
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .fz-btn-create-reto {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
   border: none;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 800;
-  padding: 12px 24px;
+  padding: 11px 22px;
   border-radius: 999px;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
@@ -65,7 +100,7 @@
   background: #ffffff;
   border-radius: 20px;
   padding: 22px;
-  border: 1px solid #e2e8f0;
+  border: 1.5px solid #e2e8f0;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -78,8 +113,13 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
 }
 
+.fz-reto-card.unido {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
 .fz-reto-card.completo {
-  opacity: 0.85;
+  opacity: 0.9;
   background: #f8fafc;
 }
 
@@ -109,6 +149,55 @@
 .fz-reto-status-pill.open { background: #dcfce7; color: #15803d; }
 .fz-reto-status-pill.full { background: #fee2e2; color: #b91c1c; }
 
+.fz-btn-delete-reto {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: transform 0.2s ease;
+}
+
+.fz-btn-delete-reto:hover {
+  transform: scale(1.2);
+}
+
+.fz-cupos-progress-wrapper {
+  margin: 12px 0 14px;
+}
+
+.fz-cupos-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.fz-cupos-labels strong {
+  color: #0f172a;
+}
+
+.fz-progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.fz-progress-bar-fill {
+  height: 100%;
+  background: #10b981;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.fz-progress-bar-fill.full {
+  background: #ef4444;
+}
+
 .fz-reto-card h4 {
   margin: 0 0 4px;
   font-size: 16px;
@@ -116,9 +205,9 @@
 }
 
 .fz-reto-datetime {
-  font-size: 12.5px;
+  font-size: 12px;
   color: #64748b;
-  margin: 0 0 14px;
+  margin: 0 0 4px;
   font-weight: 600;
 }
 
@@ -161,6 +250,13 @@
   border-radius: 6px;
 }
 
+.fz-player-tag.me {
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 800;
+  border: 1px solid #86efac;
+}
+
 .fz-btn-join-reto {
   background: #0f172a;
   color: #ffffff;
@@ -174,9 +270,18 @@
   transition: all 0.2s ease;
 }
 
-.fz-btn-join-reto:hover:not(.disabled) {
+.fz-btn-join-reto:hover:not(.disabled):not(.joined) {
   background: #10b981;
   transform: translateY(-2px);
+}
+
+.fz-btn-join-reto.joined {
+  background: #059669;
+  color: #ffffff;
+}
+
+.fz-btn-join-reto.joined:hover {
+  background: #dc2626;
 }
 
 .fz-btn-join-reto.disabled {
@@ -191,6 +296,11 @@
   background: #0c2b1e;
   border-color: rgba(255, 255, 255, 0.1);
 }
+.dark-mode .fz-reto-card.unido {
+  background: #062b1a;
+  border-color: #10b981;
+}
 .dark-mode .fz-reto-card h4 { color: #ffffff; }
+.dark-mode .fz-cupos-labels strong { color: #ffffff; }
 .dark-mode .fz-reto-meta-box { background: #071f15; color: #ffffff; }
 .dark-mode .fz-reto-desc { color: #cbd5e1; }
