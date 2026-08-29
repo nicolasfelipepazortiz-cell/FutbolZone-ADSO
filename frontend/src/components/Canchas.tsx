@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./Canchas.css";
 import { api } from "../services/api";
 import ResenasModal from "./ResenasModal";
+import Icons from "./Icons";
 
 interface CanchasProps {
   onSelectCancha: (cancha: any) => void;
@@ -76,31 +77,31 @@ function Canchas({ onSelectCancha }: CanchasProps) {
             className={`btn-filter-pill ${filtroCategoria === "todas" ? "active" : ""}`}
             onClick={() => setFiltroCategoria("todas")}
           >
-            ⚽ Todas las Canchas
+            Todas las Canchas
           </button>
           <button
             className={`btn-filter-pill ${filtroCategoria === "f5" ? "active" : ""}`}
             onClick={() => setFiltroCategoria("f5")}
           >
-            🏃 Fútbol 5
+            Fútbol 5
           </button>
           <button
             className={`btn-filter-pill ${filtroCategoria === "f7" ? "active" : ""}`}
             onClick={() => setFiltroCategoria("f7")}
           >
-            ⚡ Fútbol 7
+            Fútbol 7
           </button>
           <button
             className={`btn-filter-pill ${filtroCategoria === "f11" ? "active" : ""}`}
             onClick={() => setFiltroCategoria("f11")}
           >
-            🏆 Fútbol 11
+            Fútbol 11
           </button>
         </div>
       </div>
 
       {cargando ? (
-        <div className="canchas-loading">Cargando canchas...</div>
+        <div className="canchas-loading">Cargando canchas disponibles...</div>
       ) : (
         <div className="canchas-grid">
           {canchasFiltradas.map((cancha) => {
@@ -116,7 +117,7 @@ function Canchas({ onSelectCancha }: CanchasProps) {
                 </div>
 
                 <div className="cancha-card-body">
-                  <h3>⚽ {cancha.nombre}</h3>
+                  <h3>{cancha.nombre}</h3>
 
                   <button
                     type="button"
@@ -125,7 +126,9 @@ function Canchas({ onSelectCancha }: CanchasProps) {
                     onClick={() => setCanchaParaResenas(cancha)}
                     title="Ver opiniones y calificaciones"
                   >
-                    <span className="stars-text">⭐ {ratingVal}</span>
+                    <span className="stars-text" style={{ display: "inline-flex", alignItems: "center", gap: "4px", color: "#f59e0b", fontWeight: 700 }}>
+                      <Icons.Star size={14} color="#f59e0b" /> {ratingVal}
+                    </span>
                     <span className="resenas-text" style={{ textDecoration: "underline", color: "#059669", fontSize: "12px", fontWeight: 700 }}>
                       ({resenasCount} opiniones)
                     </span>
@@ -140,7 +143,7 @@ function Canchas({ onSelectCancha }: CanchasProps) {
                     className="btn-seleccionar-cancha"
                     disabled={cancha.activa === false}
                   >
-                    {cancha.activa !== false ? "⚽ Reservar Turno" : "Mantenimiento"}
+                    {cancha.activa !== false ? "Reservar Turno" : "Mantenimiento"}
                   </button>
                 </div>
               </div>

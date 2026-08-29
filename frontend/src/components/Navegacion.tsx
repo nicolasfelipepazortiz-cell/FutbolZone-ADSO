@@ -34,15 +34,14 @@ function Navegacion({ usuario, onNavigateToDashboard, tema = "claro", onToggleTe
               onClick={onToggleTema}
               title={`Cambiar a modo ${tema === "claro" ? "oscuro" : "claro"}`}
             >
-              <span className="theme-icon">{tema === "claro" ? "🌙" : "☀️"}</span>
-              <span className="theme-text">{tema === "claro" ? "Oscuro" : "Claro"}</span>
+              <span className="theme-text">{tema === "claro" ? "Modo Oscuro" : "Modo Claro"}</span>
             </button>
           </li>
         )}
         {usuario && onNavigateToDashboard && (
           <li className="nav-dashboard-item">
             <button className="nav-dashboard-btn" onClick={onNavigateToDashboard}>
-              {usuario.rol === "admin" ? "👑 Panel Admin" : "🏃 Mi Panel"}
+              {usuario.rol === "admin" ? "Panel Administrador" : "Mi Panel"}
             </button>
           </li>
         )}

@@ -2,6 +2,7 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import "./Login.css";
 import { api, setAuthToken, setStoredUser } from "../services/api";
 import RecuperarPasswordModal from "./RecuperarPasswordModal";
+import Icons from "./Icons";
 
 interface LoginProps {
   onLoginSuccess: (user: any) => void;
@@ -26,11 +27,10 @@ function Login({ onLoginSuccess, onSwitchToRegister, onGoHome }: LoginProps) {
     setMensaje(null);
   };
 
-  const manejarEnvio = async (e: FormEvent<HTMLFormElement>) => {
+  const manejarEnvio = async (e: FormEvent) => {
     e.preventDefault();
-
-    if (!correo || !contrasena) {
-      setMensaje({ texto: "Por favor ingrese correo y contraseña.", tipo: "error" });
+    if (!correo.trim() || !contrasena.trim()) {
+      setMensaje({ texto: "Por favor completa todos los campos", tipo: "error" });
       return;
     }
 
@@ -42,15 +42,19 @@ function Login({ onLoginSuccess, onSwitchToRegister, onGoHome }: LoginProps) {
       if (res.success && res.data?.access_token) {
         setAuthToken(res.data.access_token);
         setStoredUser(res.data.usuario);
-        setMensaje({ texto: `¡Bienvenido de nuevo, ${res.data.usuario.nombre}!`, tipo: "exito" });
-        setTimeout(() => {
-          onLoginSuccess(res.data.usuario);
-        }, 500);
+        setMensaje({ texto: "Inicio de sesión exitoso", tipo: "exito" });
+        setTimeout(() => onLoginSuccess(res.data.usuario), 500);
       } else {
-        setMensaje({ texto: res.message || "Credenciales incorrectas.", tipo: "error" });
+        setMensaje({
+          texto: res.message || "Credenciales incorrectas",
+          tipo: "error",
+        });
       }
     } catch (err: any) {
-      setMensaje({ texto: err.message || "Error al conectar con el servidor.", tipo: "error" });
+      setMensaje({
+        texto: err.message || "Error al conectar con el servidor",
+        tipo: "error",
+      });
     } finally {
       setCargando(false);
     }
@@ -68,7 +72,7 @@ function Login({ onLoginSuccess, onSwitchToRegister, onGoHome }: LoginProps) {
           )}
           
           <div className="fz-auth-avatar-circle">
-            <span className="fz-auth-avatar-icon">⚽</span>
+            <Icons.Ball size={32} color="#10b981" />
           </div>
           <span className="fz-auth-brand-tag">FutbolZone ADSO III</span>
         </div>
@@ -77,26 +81,26 @@ function Login({ onLoginSuccess, onSwitchToRegister, onGoHome }: LoginProps) {
         <div className="fz-auth-body">
           <div className="fz-auth-header-text">
             <h2>Iniciar Sesión</h2>
-            <p>Ingresa tus datos para gestionar y reservar canchas</p>
+            <p>Ingresa tus credenciales para acceder al sistema</p>
           </div>
 
-          {/* Acceso Rápido 1-Clic Demo */}
+          {/* Acceso Rápido 1-Clic */}
           <div className="fz-demo-box">
-            <span className="fz-demo-title">Acceso rápido con 1-clic:</span>
+            <span className="fz-demo-title">Acceso rápido con un clic:</span>
             <div className="fz-demo-btn-group">
               <button
                 type="button"
                 className="fz-demo-btn admin"
                 onClick={() => setDemoUser("admin@futbolzone.com", "admin123")}
               >
-                👑 Admin
+                Administrador
               </button>
               <button
                 type="button"
                 className="fz-demo-btn cliente"
                 onClick={() => setDemoUser("cliente@futbolzone.com", "cliente123")}
               >
-                🏃 Cliente
+                Cliente
               </button>
             </div>
           </div>

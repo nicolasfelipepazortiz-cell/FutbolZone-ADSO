@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "./RecuperarPasswordModal.css";
 import { api } from "../services/api";
+import Icons from "./Icons";
 
 interface RecuperarPasswordModalProps {
   emailInicial?: string;
@@ -49,7 +50,6 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
   // Manejo de inputs del PIN
   const handlePinChange = (index: number, value: string) => {
     if (value.length > 1) {
-      // Si pegan un código de 6 dígitos completo
       const pasted = value.replace(/\D/g, "").slice(0, 6).split("");
       const newDigits = [...pinDigits];
       pasted.forEach((char, i) => {
@@ -66,7 +66,6 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
     newDigits[index] = cleanChar;
     setPinDigits(newDigits);
 
-    // Auto-focus al siguiente campo
     if (cleanChar && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
@@ -93,7 +92,7 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
       const res = await api.solicitarPinRecuperacion(email.trim());
       if (res.success) {
         setPaso("verificar");
-        setSegundosRestantes(900); // 15 min
+        setSegundosRestantes(900);
       } else {
         setMensajeError(res.message || "Error al solicitar el código PIN.");
       }
@@ -110,17 +109,17 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
     const pinCompleto = pinDigits.join("");
 
     if (pinCompleto.length !== 6) {
-      setMensajeError("Por favor ingresa los 6 dígitos del código PIN.");
+      setMensajeError("Por favor ingresa los 6 dígitos del código PIN recibido en tu correo.");
       return;
     }
 
-    if (nuevaPassword.length < 6) {
+    if (!nuevaPassword || nuevaPassword.length < 6) {
       setMensajeError("La nueva contraseña debe tener al menos 6 caracteres.");
       return;
     }
 
     if (nuevaPassword !== confirmPassword) {
-      setMensajeError("Las contraseñas no coinciden. Por favor verifica.");
+      setMensajeError("Las contraseñas no coinciden. Por favor verifícalas.");
       return;
     }
 
@@ -133,40 +132,40 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
         pin: pinCompleto,
         nueva_password: nuevaPassword,
       });
-
       if (res.success) {
         setPaso("exito");
       } else {
-        setMensajeError(res.message || "Error al actualizar contraseña.");
+        setMensajeError(res.message || "Error al actualizar la contraseña.");
       }
     } catch (err: any) {
-      setMensajeError(err.message || "Error al procesar el cambio de contraseña.");
+      setMensajeError(err.message || "No se pudo conectar con el servidor.");
     } finally {
       setCargando(false);
     }
   };
 
-  // Indicador de fortaleza de contraseña
+  // Medidor de fortaleza de contraseña
   const calcularFortaleza = (pass: string) => {
-    if (!pass) return { nivel: 0, texto: "", color: "#e2e8f0" };
+    if (!pass) return { nivel: 0, texto: "", color: "#cbd5e1" };
     let score = 0;
-    if (pass.length >= 6) score++;
-    if (pass.length >= 8) score++;
-    if (/[A-Z]/.test(pass)) score++;
-    if (/[0-9]/.test(pass)) score++;
-    if (/[^A-Za-z0-9]/.test(pass)) score++;
+    if (pass.length >= 6) score += 30;
+    if (pass.length >= 8) score += 20;
+    if (/[A-Z]/.test(pass)) score += 20;
+    if (/[0-9]/.test(pass)) score += 15;
+    if (/[^A-Za-z0-9]/.test(pass)) score += 15;
 
-    if (score <= 2) return { nivel: 33, texto: "Débil", color: "#ef4444" };
-    if (score <= 4) return { nivel: 66, texto: "Media", color: "#f59e0b" };
-    return { nivel: 100, texto: "Segura & Fuerte", color: "#10b981" };
+    if (score < 40) return { nivel: 33, texto: "Nivel Débil", color: "#ef4444" };
+    if (score < 75) return { nivel: 66, texto: "Nivel Medio", color: "#f59e0b" };
+    return { nivel: 100, texto: "Nivel Seguro", color: "#10b981" };
   };
 
   const fortaleza = calcularFortaleza(nuevaPassword);
 
   return (
-    <div className="fz-recovery-overlay">
-      <div className="fz-recovery-card">
-        <button type="button" className="btn-close-recovery" onClick={onClose} title="Cerrar modal">
+    <div className="fz-rec-modal-overlay">
+      <div className="fz-rec-modal-card">
+        {/* Botón Cerrar */}
+        <button type="button" className="fz-rec-close-btn" onClick={onClose} title="Cerrar ventana">
           ✕
         </button>
 
@@ -174,7 +173,9 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
         {paso === "solicitar" && (
           <div>
             <div className="fz-recovery-header">
-              <div className="fz-recovery-icon-circle">🔐</div>
+              <div className="fz-recovery-icon-circle">
+                <Icons.Lock size={26} color="#059669" />
+              </div>
               <h2>Recuperar Contraseña</h2>
               <p>
                 Ingresa tu correo electrónico registrado y te enviaremos un <strong>código PIN de 6 dígitos</strong> para restablecer tu acceso.
@@ -196,12 +197,12 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
 
               {mensajeError && (
                 <div className="fz-rec-alert error">
-                  ⚠️ {mensajeError}
+                  {mensajeError}
                 </div>
               )}
 
               <button type="submit" className="fz-btn-rec-primary" disabled={cargando}>
-                {cargando ? "Enviando PIN..." : "✉️ Enviar PIN de Seguridad"}
+                {cargando ? "Enviando PIN..." : "Enviar Código PIN"}
               </button>
 
               <button type="button" className="fz-btn-rec-cancel" onClick={onClose}>
@@ -215,14 +216,16 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
         {paso === "verificar" && (
           <div>
             <div className="fz-recovery-header">
-              <div className="fz-recovery-icon-circle">✉️</div>
+              <div className="fz-recovery-icon-circle">
+                <Icons.Mail size={26} color="#059669" />
+              </div>
               <h2>Código de Verificación</h2>
               <p>
                 Enviamos un PIN a <strong>{email}</strong>. Ingrésalo a continuación junto con tu nueva clave.
               </p>
               
               <div className="fz-rec-timer-badge">
-                ⏳ El código expira en: <strong>{formatearTiempo(segundosRestantes)}</strong>
+                Expira en: <strong>{formatearTiempo(segundosRestantes)}</strong>
               </div>
             </div>
 
@@ -263,7 +266,7 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
                     className="btn-toggle-eye"
                     onClick={() => setMostrarPassword(!mostrarPassword)}
                   >
-                    {mostrarPassword ? "👁️" : "🙈"}
+                    {mostrarPassword ? "Ocultar" : "Mostrar"}
                   </button>
                 </div>
 
@@ -294,12 +297,12 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
 
               {mensajeError && (
                 <div className="fz-rec-alert error">
-                  ⚠️ {mensajeError}
+                  {mensajeError}
                 </div>
               )}
 
               <button type="submit" className="fz-btn-rec-primary" disabled={cargando}>
-                {cargando ? "Actualizando clave..." : "🔐 Restablecer Mi Contraseña"}
+                {cargando ? "Actualizando clave..." : "Actualizar Contraseña"}
               </button>
 
               <div className="fz-rec-footer-links">
@@ -319,8 +322,10 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
         {/* ── PASO 3: ÉXITO ── */}
         {paso === "exito" && (
           <div className="fz-rec-success-screen">
-            <div className="fz-success-checkmark-anim">✅</div>
-            <h2>¡Contraseña Restablecida!</h2>
+            <div className="fz-success-checkmark-anim">
+              <Icons.Check size={48} color="#10b981" />
+            </div>
+            <h2>Contraseña Restablecida</h2>
             <p>
               Tu contraseña para <strong>{email}</strong> ha sido actualizada exitosamente con cifrado de alta seguridad.
             </p>
@@ -334,7 +339,7 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
               }}
               style={{ marginTop: "20px" }}
             >
-              🚀 Iniciar Sesión Ahora
+              Iniciar Sesión Ahora
             </button>
           </div>
         )}

@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import "./Registro.css";
 import { api } from "../services/api";
+import Icons from "./Icons";
 
 interface RegistroProps {
   onRegisterSuccess?: () => void;
@@ -9,7 +10,7 @@ interface RegistroProps {
 }
 
 function Registro({ onRegisterSuccess, onSwitchToLogin, onGoHome }: RegistroProps) {
-  const [nombre, setNombre] = useState<string>("" );
+  const [nombre, setNombre] = useState<string>("");
   const [apellido, setApellido] = useState<string>("");
   const [correo, setCorreo] = useState<string>("");
   const [telefono, setTelefono] = useState<string>("");
@@ -34,11 +35,11 @@ function Registro({ onRegisterSuccess, onSwitchToLogin, onGoHome }: RegistroProp
     }
 
     if (score < 40 || pass.length < 8) {
-      return { porcentaje: 33, color: "#ef4444", label: "🔴 Débil" };
+      return { porcentaje: 33, color: "#ef4444", label: "Nivel Débil" };
     } else if (score < 75) {
-      return { porcentaje: 66, color: "#f59e0b", label: "🟡 Media" };
+      return { porcentaje: 66, color: "#f59e0b", label: "Nivel Medio" };
     } else {
-      return { porcentaje: 100, color: "#10b981", label: "🟢 Segura" };
+      return { porcentaje: 100, color: "#10b981", label: "Nivel Seguro" };
     }
   };
 
@@ -126,7 +127,7 @@ function Registro({ onRegisterSuccess, onSwitchToLogin, onGoHome }: RegistroProp
           )}
 
           <div className="fz-auth-avatar-circle">
-            <span className="fz-auth-avatar-icon">⚽</span>
+            <Icons.Ball size={32} color="#10b981" />
           </div>
           <span className="fz-auth-brand-tag">Crear Cuenta</span>
         </div>

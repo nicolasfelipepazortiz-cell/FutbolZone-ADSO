@@ -14,6 +14,7 @@ import NotificacionesPill from "./components/NotificacionesPill";
 import UbicacionMapa from "./components/UbicacionMapa";
 import AnuncioBanner from "./components/AnuncioBanner";
 import TablonRetos from "./components/TablonRetos";
+import Icons from "./components/Icons";
 import { getStoredUser, removeAuthToken } from "./services/api";
 
 type VistaActual = "landing" | "login" | "registro" | "reserva" | "admin_dashboard" | "client_dashboard";
@@ -25,7 +26,7 @@ function App() {
 
   // Estado del Anuncio Global del Admin
   const [anuncioGlobal, setAnuncioGlobal] = useState<{ titulo: string; mensaje: string; activo: boolean } | null>({
-    titulo: "🔥 PROMO NOCTURNA",
+    titulo: "PROMO NOCTURNA",
     mensaje: "Aprovecha 20% de descuento en partidos nocturnos ingresando el cupón FUTBOL2026",
     activo: true,
   });
@@ -140,8 +141,9 @@ function App() {
 
       {/* HEADER */}
       <header className="header-zone">
-        <div className="logo" onClick={() => setVista("landing")} style={{ cursor: "pointer" }}>
-          <h1>⚽ Futbol<span>Zone</span></h1>
+        <div className="logo" onClick={() => setVista("landing")} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}>
+          <Icons.Ball size={26} color="#10b981" />
+          <h1 style={{ margin: 0 }}>Futbol<span>Zone</span></h1>
         </div>
 
         <Navegacion
@@ -157,14 +159,15 @@ function App() {
 
           {usuario ? (
             <div className="user-session-pill">
-              <span className="user-name">
-                {usuario.rol === "admin" ? "👑 Admin:" : "🏃"} {usuario.nombre}
+              <span className="user-name" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <Icons.User size={15} color="#10b981" />
+                {usuario.rol === "admin" ? `Admin: ${usuario.nombre}` : usuario.nombre}
               </span>
               <button className="btn btn-panel" onClick={irADashboard}>
                 {usuario.rol === "admin" ? "Dashboard" : "Mis Reservas"}
               </button>
               <button className="btn btn-logout-sm" onClick={cerrarSesion} title="Cerrar Sesión">
-                🔒
+                <Icons.Lock size={13} />
               </button>
             </div>
           ) : (
@@ -185,18 +188,21 @@ function App() {
       <main>
         <section id="inicio" className="banner">
           <div className="banner-content">
-            <span className="banner-badge">⚽ Tu cancha, tu equipo, tu pasión</span>
+            <span className="banner-badge" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+              <Icons.Ball size={14} color="#10b981" />
+              Gestión Deportiva & Reservas en Línea
+            </span>
             <h2>Reserva Tu Cancha Sintética En Tiempo Real</h2>
             <p>
               Canchas de Fútbol 5, 7 y 11 con iluminación LED, césped sintético de alta calidad y vestuarios de primera.
             </p>
             <div className="banner-cta-group">
               <a href="#canchas" className="btn-primary-hero">
-                ⚽ ¡Reserva Tu Turno Ahora!
+                Reservar Turno Ahora
               </a>
               {usuario && (
                 <button className="btn-secondary-hero" onClick={irADashboard}>
-                  📋 Ver Mi Panel
+                  Ver Mi Panel
                 </button>
               )}
             </div>
@@ -240,26 +246,28 @@ function App() {
         {/* INNOVACIÓN TECNOLÓGICA & ARQUITECTURA DEL SOFTWARE (SENA ADSO III) */}
         <section id="caracteristicas" className="section quienes-section">
           <div className="section-container">
-            <span className="section-badge">💻 Proyecto Formativo · SENA ADSO III Trimestre</span>
-            <h2>⚡ Innovación Tecnológica & Arquitectura del Software</h2>
+            <span className="section-badge"><Icons.Code size={14} /> Proyecto Formativo · SENA ADSO III Trimestre</span>
+            <h2>Innovación Tecnológica & Arquitectura del Software</h2>
             <p className="quienes-intro">
-              <strong>FutbolZone</strong> es una plataforma tecnológica integral desarrollada con arquitectura moderna Full-Stack para digitalizar la administración de complejos deportivos, reservas en tiempo real, analítica ejecutiva y comunidad de jugadores.
+              <strong>FutbolZone</strong> es una plataforma tecnológica integral desarrollada con arquitectura Full-Stack moderna para digitalizar la administración de complejos deportivos, reservas en tiempo real, analítica ejecutiva y comunidad de jugadores.
             </p>
 
             {/* BADGES DEL STACK TECNOLÓGICO */}
             <div className="fz-tech-stack-row">
-              <span className="fz-tech-badge">⚡ FastAPI (Python 3.14)</span>
-              <span className="fz-tech-badge">⚛️ React + TypeScript</span>
-              <span className="fz-tech-badge">⚡ Vite 8 Build System</span>
-              <span className="fz-tech-badge">🔐 JWT + Bcrypt Hashing</span>
-              <span className="fz-tech-badge">✉️ SMTP Real (Gmail OTP)</span>
-              <span className="fz-tech-badge">📊 SheetJS Native Excel (.xlsx)</span>
-              <span className="fz-tech-badge">🗄️ SQLAlchemy ORM</span>
+              <span className="fz-tech-badge"><Icons.Zap size={13} /> FastAPI (Python 3.14)</span>
+              <span className="fz-tech-badge"><Icons.Code size={13} /> React + TypeScript</span>
+              <span className="fz-tech-badge"><Icons.Zap size={13} /> Vite Build System</span>
+              <span className="fz-tech-badge"><Icons.Shield size={13} /> JWT & Bcrypt Cifrado</span>
+              <span className="fz-tech-badge"><Icons.Mail size={13} /> SMTP Real (OTP Gmail)</span>
+              <span className="fz-tech-badge"><Icons.FileSpreadsheet size={13} /> SheetJS Excel (.xlsx)</span>
+              <span className="fz-tech-badge"><Icons.Database size={13} /> SQLAlchemy ORM</span>
             </div>
 
             <div className="quienes-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", marginTop: "28px" }}>
               <div className="quienes-card">
-                <div className="quienes-icon">⏱️</div>
+                <div className="quienes-icon">
+                  <Icons.Clock size={24} color="#059669" />
+                </div>
                 <h3>Motor de Turnos en Vivo</h3>
                 <p>
                   Algoritmo inteligente de validación horaria que previene solapamientos y calcula liquidaciones dinámicas según la jornada y duración de la reserva.
@@ -267,7 +275,9 @@ function App() {
               </div>
 
               <div className="quienes-card">
-                <div className="quienes-icon">🎟️</div>
+                <div className="quienes-icon">
+                  <Icons.QrCode size={24} color="#059669" />
+                </div>
                 <h3>Tickets QR Imprimibles</h3>
                 <p>
                   Generación instantánea de tickets de reserva digitales listos para imprimir o guardar en PDF con código QR de acceso rápido a la cancha.
@@ -275,7 +285,9 @@ function App() {
               </div>
 
               <div className="quienes-card">
-                <div className="quienes-icon">📊</div>
+                <div className="quienes-icon">
+                  <Icons.Chart size={24} color="#059669" />
+                </div>
                 <h3>Reportes Nativos en Excel</h3>
                 <p>
                   Exportación ejecutiva en formato <code>.xlsx</code> con fórmulas de recaudación, historial de jugadores y tablas de posiciones de torneos.
@@ -283,7 +295,9 @@ function App() {
               </div>
 
               <div className="quienes-card">
-                <div className="quienes-icon">🔐</div>
+                <div className="quienes-icon">
+                  <Icons.Lock size={24} color="#059669" />
+                </div>
                 <h3>Seguridad OTP por Correo</h3>
                 <p>
                   Restablecimiento seguro de contraseñas mediante PIN criptográfico de 6 dígitos con vigencia de 15 minutos conectado a servidores SMTP reales.
@@ -296,7 +310,7 @@ function App() {
         {/* BENEFICIOS CON IMÁGENES */}
         <section id="beneficios" className="section beneficios-section">
           <div className="section-container">
-            <h2>✅ Beneficios Exclusivos</h2>
+            <h2>Instalaciones & Beneficios</h2>
             <div className="beneficios-grid">
               <div className="beneficio-card">
                 <img
@@ -305,7 +319,7 @@ function App() {
                   className="beneficio-img"
                 />
                 <div className="beneficio-card-content">
-                  <h3>💡 Iluminación LED Profesional</h3>
+                  <h3>Iluminación LED Profesional</h3>
                   <p>Juega de noche con iluminación de foco LED de estadio sin sombras.</p>
                 </div>
               </div>
@@ -317,7 +331,7 @@ function App() {
                   className="beneficio-img"
                 />
                 <div className="beneficio-card-content">
-                  <h3>🌱 Césped Sintético Premium</h3>
+                  <h3>Césped Sintético Premium</h3>
                   <p>Canchas con amortiguación y fibra sintética de alta tecnología anti-impacto.</p>
                 </div>
               </div>
@@ -329,7 +343,7 @@ function App() {
                   className="beneficio-img"
                 />
                 <div className="beneficio-card-content">
-                  <h3>🚿 Vestuarios & Duchas</h3>
+                  <h3>Vestuarios & Duchas</h3>
                   <p>Espacios impecables y cómodos para refrescarte después de cada partido.</p>
                 </div>
               </div>
@@ -341,7 +355,7 @@ function App() {
                   className="beneficio-img"
                 />
                 <div className="beneficio-card-content">
-                  <h3>🅿️ Parqueadero Vigilado</h3>
+                  <h3>Parqueadero Vigilado</h3>
                   <p>Estacionamiento privado y seguro durante todo el tiempo de tu estadía.</p>
                 </div>
               </div>
@@ -359,9 +373,8 @@ function App() {
       {/* FOOTER */}
       <footer>
         <div className="footer-content">
-          <p>© 2026 FutbolZone - Proyecto Formativo.</p>
-          <p>📧 nicolasfelipepazortiz@gmail.com | 📞 314-803-88-43</p>
-          <p>⚽ El mejor software de gestión deportiva.</p>
+          <p>© 2026 FutbolZone · Sistema de Gestión Deportiva.</p>
+          <p>Proyecto Formativo SENA ADSO III Trimestre · Nicolas Felipe Paz Ortiz</p>
         </div>
       </footer>
     </div>

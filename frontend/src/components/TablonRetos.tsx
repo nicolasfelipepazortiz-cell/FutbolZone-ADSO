@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./TablonRetos.css";
+import Icons from "./Icons";
 import { getStoredUser } from "../services/api";
 
 interface Convocatoria {
@@ -114,15 +115,14 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
   };
 
   const reiniciarConvocatorias = () => {
-    if (!confirm("👑 [ADMIN] ¿Deseas restaurar la lista de convocatorias a su estado original con todos los cupos libres?")) return;
+    if (!confirm("[ADMINISTRADOR] ¿Deseas restaurar la lista de convocatorias a su estado original con todos los cupos libres?")) return;
     guardar(CONVOCATORIAS_INICIALES);
-    alert("¡Convocatorias restauradas con éxito! ⚽");
+    alert("Convocatorias restauradas con éxito.");
   };
 
   const toggleUnirseAConvocatoria = (retId: string) => {
-    // Si no ha iniciado sesión, exigir login como cliente
     if (!usuario) {
-      const confirmar = confirm("🔒 Para unirte a la nómina de este partido debes iniciar sesión como Cliente.\n\n¿Deseas ir a la pantalla de Inicio de Sesión ahora?");
+      const confirmar = confirm("Para unirte a la nómina de este partido debes iniciar sesión como Cliente.\n\n¿Deseas ir a la pantalla de Inicio de Sesión ahora?");
       if (confirmar && onRequireLogin) {
         onRequireLogin();
       }
@@ -146,11 +146,11 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
           };
         } else {
           if (c.cuposOcupados >= c.cuposTotales) {
-            alert("¡La nómina de este partido ya está completa!");
+            alert("La nómina de este partido ya está completa.");
             return c;
           }
 
-          alert(`¡Excelente ${miNombre}! Te has unido al partido de ${c.organizador}. ¡Prepara los guayos! ⚽`);
+          alert(`¡Listo ${usuario.nombre}! Te has unido al partido de ${c.organizador}.`);
           return {
             ...c,
             cuposOcupados: c.cuposOcupados + 1,
@@ -172,7 +172,7 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
 
   const clickBotonPublicar = () => {
     if (!usuario) {
-      const confirmar = confirm("🔒 Para publicar una convocatoria o buscar jugadores debes iniciar sesión como Cliente.\n\n¿Deseas ir a Iniciar Sesión ahora?");
+      const confirmar = confirm("Para publicar una convocatoria o buscar jugadores debes iniciar sesión como Cliente.\n\n¿Deseas ir a Iniciar Sesión ahora?");
       if (confirmar && onRequireLogin) {
         onRequireLogin();
       }
@@ -198,7 +198,7 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
       fecha,
       hora,
       cuposTotales: Number(cuposTotales),
-      cuposOcupados: 1, // El organizador ocupa 1 cupo
+      cuposOcupados: 1,
       nivel,
       posicionBuscada: posicionBuscada.trim() || "Cualquier posición",
       descripcion: descripcion.trim() || "Partido abierto buscando completar equipo.",
@@ -209,7 +209,7 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
     guardar(actualizadas);
     setMostrarForm(false);
     setDescripcion("");
-    alert("¡Tu convocatoria ha sido publicada con éxito en el Tablón de Retos! ⚽");
+    alert("Tu convocatoria ha sido publicada en el Tablón de Retos.");
   };
 
   const convocatoriasFiltradas = convocatorias.filter((c) => {
@@ -226,10 +226,13 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
   return (
     <section id="retos" className="fz-retos-section">
       <div className="fz-retos-header">
-        <span className="section-badge">👥 Comunidad FutbolZone</span>
-        <h2>📢 Tablón de Retos & Buscador de Jugadores</h2>
+        <span className="section-badge" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+          <Icons.Users size={14} color="#10b981" />
+          Comunidad & Partidos Abiertos
+        </span>
+        <h2>Tablón de Retos & Buscador de Jugadores</h2>
         <p>
-          ¿Te faltan jugadores para armar tu partido? Revisa los partidos abiertos y únete con tu cuenta de cliente.
+          ¿Te faltan jugadores para armar tu partido? Revisa las convocatorias disponibles o publica la tuya.
         </p>
 
         <div className="fz-retos-top-actions">
@@ -239,28 +242,28 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
               className={`fz-filter-chip ${filtroCancha === "todas" ? "active" : ""}`}
               onClick={() => setFiltroCancha("todas")}
             >
-              ⚽ Todos
+              Todos
             </button>
             <button
               type="button"
               className={`fz-filter-chip ${filtroCancha === "f5" ? "active" : ""}`}
               onClick={() => setFiltroCancha("f5")}
             >
-              🏃 Fútbol 5
+              Fútbol 5
             </button>
             <button
               type="button"
               className={`fz-filter-chip ${filtroCancha === "f7" ? "active" : ""}`}
               onClick={() => setFiltroCancha("f7")}
             >
-              ⚡ Fútbol 7
+              Fútbol 7
             </button>
             <button
               type="button"
               className={`fz-filter-chip ${filtroCancha === "f11" ? "active" : ""}`}
               onClick={() => setFiltroCancha("f11")}
             >
-              🏆 Fútbol 11
+              Fútbol 11
             </button>
           </div>
 
@@ -269,19 +272,20 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
               type="button"
               className="fz-btn-create-reto"
               onClick={clickBotonPublicar}
+              style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
             >
-              {mostrarForm ? "✕ Cerrar Formulario" : "➕ Publicar Convocatoria"}
+              <Icons.Plus size={15} />
+              {mostrarForm ? "Cerrar Formulario" : "Publicar Convocatoria"}
             </button>
 
-            {/* BOTÓN DE RESTAURAR SÓLO VISIBLE PARA EL ADMIN */}
             {esAdmin && (
               <button
                 type="button"
                 className="fz-btn-reset-retos"
                 onClick={reiniciarConvocatorias}
-                title="Restaurar lista original de partidos abiertos (Solo Admin)"
+                title="Restaurar lista original de partidos abiertos"
               >
-                👑 Restaurar Cupos (Admin)
+                Restaurar Cupos (Admin)
               </button>
             )}
           </div>
@@ -292,11 +296,11 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
       {mostrarForm && usuario && (
         <form onSubmit={crearConvocatoria} className="fz-form-reto-card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-            <h3 style={{ margin: 0, fontSize: "18px", color: "#0f172a" }}>
-              ⚡ Publicar Convocatoria de Partido
+            <h3 style={{ margin: 0, fontSize: "17px", color: "#0f172a" }}>
+              Nueva Convocatoria de Partido
             </h3>
             <span style={{ fontSize: "12px", color: "#10b981", fontWeight: 700 }}>
-              👤 Publicando como: {miNombreUsuario}
+              Organizador: {miNombreUsuario}
             </span>
           </div>
 
@@ -360,7 +364,7 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
             <label>Mensaje para la comunidad</label>
             <textarea
               rows={2}
-              placeholder="Detalles sobre el partido, hidratación, tercer tiempo..."
+              placeholder="Detalles sobre el partido, hidratación, petos..."
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
             />
@@ -368,7 +372,7 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
 
           <div style={{ marginTop: "16px", display: "flex", gap: "10px" }}>
             <button type="submit" className="fz-btn-primary">
-              🚀 Publicar Convocatoria
+              Publicar Convocatoria
             </button>
             <button type="button" className="fz-btn-outline" onClick={() => setMostrarForm(false)}>
               Cancelar
@@ -381,11 +385,11 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
       <div className="fz-retos-grid">
         {convocatoriasFiltradas.length === 0 ? (
           <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "40px", color: "#64748b" }}>
-            <span style={{ fontSize: "36px", display: "block", marginBottom: "8px" }}>📭</span>
-            <strong>No hay convocatorias activas para esta categoría.</strong>
-            <p style={{ margin: "6px 0 14px", fontSize: "13px" }}>¡Sé el primero en crear una convocatoria y armar tu partido!</p>
+            <Icons.Users size={36} color="#94a3b8" />
+            <strong style={{ display: "block", marginTop: "10px" }}>No hay convocatorias activas para esta categoría.</strong>
+            <p style={{ margin: "6px 0 14px", fontSize: "13px" }}>Sé el primero en crear una convocatoria y armar tu partido.</p>
             <button type="button" className="fz-btn-primary" onClick={clickBotonPublicar}>
-              ➕ Publicar Convocatoria
+              Publicar Convocatoria
             </button>
           </div>
         ) : (
@@ -399,17 +403,23 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
             return (
               <div key={c.id} className={`fz-reto-card ${lleno ? "completo" : ""} ${yaUnido ? "unido" : ""}`}>
                 <div className="fz-reto-card-top">
-                  <span className="fz-reto-badge-cancha">⚽ {c.cancha}</span>
+                  <span className="fz-reto-badge-cancha">{c.cancha}</span>
                   <span className={`fz-reto-status-pill ${lleno ? "full" : "open"}`}>
-                    {lleno ? "🔴 Nómina Completa" : `🟢 ${cuposRestantes} Cupos Libres`}
+                    {lleno ? "Nómina Completa" : `${cuposRestantes} Cupos Libres`}
                   </span>
                 </div>
 
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                   <div>
                     <h4 style={{ margin: 0 }}>Organiza: {c.organizador}</h4>
-                    <p className="fz-reto-datetime">
-                      🗓️ {c.fecha} · ⏰ {c.hora}
+                    <p className="fz-reto-datetime" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                        <Icons.Calendar size={12} color="#64748b" /> {c.fecha}
+                      </span>
+                      <span>·</span>
+                      <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                        <Icons.Clock size={12} color="#64748b" /> {c.hora}
+                      </span>
                     </p>
                   </div>
 
@@ -420,7 +430,7 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
                       onClick={() => eliminarConvocatoria(c.id)}
                       title="Eliminar convocatoria"
                     >
-                      🗑️
+                      <Icons.Trash size={16} color="#ef4444" />
                     </button>
                   )}
                 </div>
@@ -458,7 +468,7 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
                     <div className="fz-roster-tags">
                       {c.jugadoresUnidos.map((j, i) => (
                         <span key={i} className={`fz-player-tag ${j === miNombreUsuario ? "me" : ""}`}>
-                          🏃 {j} {j === miNombreUsuario && " (Tú)"}
+                          {j} {j === miNombreUsuario && " (Tú)"}
                         </span>
                       ))}
                     </div>
@@ -472,10 +482,10 @@ function TablonRetos({ onRequireLogin }: TablonRetosProps) {
                   disabled={lleno && !yaUnido}
                 >
                   {yaUnido
-                    ? "✓ Ya estás en este partido (Clic para salir)"
+                    ? "Inscrito (Clic para salir)"
                     : lleno
-                    ? "🔴 Nómina Completa"
-                    : "⚽ ¡Me Uno al Partido!"}
+                    ? "Nómina Completa"
+                    : "Unirme al Partido"}
                 </button>
               </div>
             );
