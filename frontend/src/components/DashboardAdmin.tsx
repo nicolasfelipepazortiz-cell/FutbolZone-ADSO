@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./DashboardAdmin.css";
+import * as XLSX from "xlsx";
 import { api } from "../services/api";
 
 interface DashboardAdminProps {
@@ -144,21 +145,40 @@ function DashboardAdmin({ onLogout, onPublicarAnuncio }: DashboardAdminProps) {
   };
 
   const exportarExcelReservas = () => {
-    const encabezados = "ID,Cliente,Cancha,Fecha,Hora Inicio,Hora Fin,Total COP,Metodo Pago,Estado,Notas\n";
-    const filas = reservasFiltradas.map((r) => {
+    const dataFilas = reservasFiltradas.map((r) => {
       const metodo = r.metodo_pago || (r.notas?.includes("NEQUI") ? "Nequi" : r.notas?.includes("DAVIPLATA") ? "Daviplata" : r.notas?.includes("TARJETA") ? "Tarjeta" : "Efectivo");
-      const notasLimpia = (r.notas || "").replace(/,/g, " - ").replace(/\n/g, " ");
-      return `${r.id},"${r.cliente || "Cliente"}","${r.cancha_nombre || "Cancha Central"}",${r.fecha},${r.hora_inicio.substring(0, 5)},${r.hora_fin.substring(0, 5)},${Number(r.precio_total) || 50000},${metodo},${r.estado},"${notasLimpia}"\n`;
+      return {
+        "ID": r.id,
+        "Cliente": r.cliente || "Cliente",
+        "Cancha": r.cancha_nombre || "Cancha Central",
+        "Fecha": r.fecha,
+        "Horario": `${r.hora_inicio.substring(0, 5)} - ${r.hora_fin.substring(0, 5)}`,
+        "Total COP": Number(r.precio_total) || 50000,
+        "Método de Pago": metodo,
+        "Estado": r.estado?.toUpperCase(),
+        "Detalles / Notas": r.notas || "Turno estándar",
+      };
     });
 
-    const blob = new Blob(["\uFEFF" + encabezados + filas.join("")], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `Reporte_Reservas_FutbolZone_${new Date().toISOString().split("T")[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const worksheet = XLSX.utils.json_to_sheet(dataFilas);
+    // Configurar anchos de columna automáticos
+    worksheet["!cols"] = [
+      { wch: 8 },  // ID
+      { wch: 22 }, // Cliente
+      { wch: 20 }, // Cancha
+      { wch: 14 }, // Fecha
+      { wch: 16 }, // Horario
+      { wch: 14 }, // Total COP
+      { wch: 18 }, // Método de Pago
+      { wch: 14 }, // Estado
+      { wch: 40 }, // Notas
+    ];
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Reservas FutbolZone");
+
+    const fechaHoy = new Date().toISOString().split("T")[0];
+    XLSX.writeFile(workbook, `Reporte_Reservas_FutbolZone_${fechaHoy}.xlsx`);
   };
 
   const imprimirReporteFinanciero = () => {
@@ -786,9 +806,9 @@ function DashboardAdmin({ onLogout, onPublicarAnuncio }: DashboardAdminProps) {
                   type="button"
                   className="fz-btn-export-excel"
                   onClick={exportarExcelReservas}
-                  title="Descargar listado en archivo Excel / CSV"
+                  title="Descargar listado en archivo Excel (.XLSX)"
                 >
-                  📊 Exportar Excel (.CSV)
+                  📊 Exportar Excel (.XLSX)
                 </button>
                 <button
                   type="button"

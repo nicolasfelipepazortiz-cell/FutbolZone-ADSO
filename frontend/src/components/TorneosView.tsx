@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./TorneosView.css";
+import * as XLSX from "xlsx";
 import { getStoredUser } from "../services/api";
 
 interface EquipoTabla {
@@ -91,6 +92,38 @@ function TorneosView() {
     setTimeout(() => setMensajeInscripcion(null), 5000);
   };
 
+  const exportarExcelPosiciones = () => {
+    const dataFilas = tablaPosiciones.map((eq, index) => ({
+      "Posición": index + 1,
+      "Equipo": eq.nombre,
+      "Puntos": eq.puntos,
+      "Partidos Jugados (PJ)": eq.pj,
+      "Partidos Ganados (PG)": eq.pg,
+      "Partidos Empatados (PE)": eq.pe,
+      "Partidos Perdidos (PP)": eq.pp,
+      "Goles a Favor (GF)": eq.gf,
+      "Goles en Contra (GC)": eq.gc,
+      "Diferencia de Gol (DG)": eq.dg,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(dataFilas);
+    worksheet["!cols"] = [
+      { wch: 10 },
+      { wch: 26 },
+      { wch: 8 },
+      { wch: 22 },
+      { wch: 22 },
+      { wch: 22 },
+      { wch: 22 },
+      { wch: 20 },
+      { wch: 20 },
+      { wch: 22 },
+    ];
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Tabla de Posiciones");
+    XLSX.writeFile(workbook, `Tabla_Posiciones_FutbolZone_2026.xlsx`);
+  };
+
   return (
     <div className="fz-torneos-container">
       <div className="fz-torneos-topbar">
@@ -128,6 +161,20 @@ function TorneosView() {
       {/* ── SUBVISTA 1: TABLA DE POSICIONES ── */}
       {tabTorneo === "posiciones" && (
         <div className="fz-torneo-view-card">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+            <span style={{ fontSize: "13px", fontWeight: 700, color: "#64748b" }}>
+              Clasificación Oficial del Torneo Clausura 2026
+            </span>
+            <button
+              type="button"
+              className="fz-btn-export-excel"
+              onClick={exportarExcelPosiciones}
+              title="Descargar tabla de posiciones en formato Excel .XLSX"
+            >
+              📊 Descargar Tabla en Excel (.XLSX)
+            </button>
+          </div>
+
           <div className="fz-table-responsive">
             <table className="fz-standings-table">
               <thead>

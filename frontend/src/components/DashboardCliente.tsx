@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "./DashboardCliente.css";
+import * as XLSX from "xlsx";
 import { api, setStoredUser } from "../services/api";
 import TicketReservaModal from "./TicketReservaModal";
 import TorneosView from "./TorneosView";
@@ -70,6 +71,42 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
     } catch (err: any) {
       alert("Error al cancelar reserva: " + err.message);
     }
+  };
+
+  const exportarExcelMisReservas = () => {
+    if (misReservas.length === 0) {
+      alert("No tienes reservas registradas para exportar.");
+      return;
+    }
+    const dataFilas = misReservas.map((r) => {
+      const metodo = r.metodo_pago || (r.notas?.includes("NEQUI") ? "Nequi" : r.notas?.includes("DAVIPLATA") ? "Daviplata" : r.notas?.includes("TARJETA") ? "Tarjeta" : "Efectivo");
+      return {
+        "ID": r.id,
+        "Cancha": r.cancha_nombre || "Cancha Sintética",
+        "Fecha": r.fecha,
+        "Horario": `${r.hora_inicio.substring(0, 5)} - ${r.hora_fin.substring(0, 5)}`,
+        "Total COP": Number(r.precio_total) || 50000,
+        "Método de Pago": metodo,
+        "Estado": r.estado?.toUpperCase(),
+        "Notas": r.notas || "Reserva estándar",
+      };
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(dataFilas);
+    worksheet["!cols"] = [
+      { wch: 8 },
+      { wch: 22 },
+      { wch: 14 },
+      { wch: 16 },
+      { wch: 14 },
+      { wch: 18 },
+      { wch: 14 },
+      { wch: 30 },
+    ];
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Mis Reservas");
+    const fechaHoy = new Date().toISOString().split("T")[0];
+    XLSX.writeFile(workbook, `Mis_Reservas_${usuario?.nombre || "Jugador"}_${fechaHoy}.xlsx`);
   };
 
   const handleSubirFoto = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -515,6 +552,23 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
         {/* ── VISTA 2: MIS RESERVAS ── */}
         {tabActiva === "reservas" && (
           <div className="fz-subview-card">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: "18px", color: "#0f172a" }}>Historial de Partidos ({misReservas.length})</h3>
+                <p style={{ margin: "2px 0 0", fontSize: "12px", color: "#64748b" }}>Turnos agendados y comprobantes oficiales</p>
+              </div>
+              {misReservas.length > 0 && (
+                <button
+                  type="button"
+                  className="fz-btn-export-excel"
+                  onClick={exportarExcelMisReservas}
+                  title="Descargar mi historial en formato Excel .XLSX"
+                >
+                  📊 Descargar Historial en Excel (.XLSX)
+                </button>
+              )}
+            </div>
+
             <div className="fz-table-responsive">
               <table className="fz-data-table">
                 <thead>
