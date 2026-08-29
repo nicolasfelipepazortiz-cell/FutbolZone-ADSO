@@ -26,7 +26,6 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
   // Estados de interfaz
   const [cargando, setCargando] = useState<boolean>(false);
   const [mensajeError, setMensajeError] = useState<string | null>(null);
-  const [pinSimulado, setPinSimulado] = useState<string | null>(null);
   
   // Temporizador de 15 minutos (900 segundos)
   const [segundosRestantes, setSegundosRestantes] = useState<number>(900);
@@ -95,9 +94,6 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
       if (res.success) {
         setPaso("verificar");
         setSegundosRestantes(900); // 15 min
-        if (res.data?.pin_simulado) {
-          setPinSimulado(res.data.pin_simulado);
-        }
       } else {
         setMensajeError(res.message || "Error al solicitar el código PIN.");
       }
@@ -229,13 +225,6 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
                 ⏳ El código expira en: <strong>{formatearTiempo(segundosRestantes)}</strong>
               </div>
             </div>
-
-            {pinSimulado && (
-              <div className="fz-rec-simulated-box">
-                <small>💡 PIN recibido para prueba rápida:</small>
-                <strong>{pinSimulado}</strong>
-              </div>
-            )}
 
             <form onSubmit={handleCambiarPassword} className="fz-recovery-form">
               {/* CASILLAS DE 6 DÍGITOS */}

@@ -60,12 +60,11 @@ def solicitar_pin(body: SolicitarPinSchema, db: Session):
 
     return api_response(
         True,
-        f"Código de seguridad generado para {email_clean}.",
+        f"Código de seguridad enviado a {email_clean}. Revisa tu bandeja de entrada.",
         data={
             "email": email_clean,
             "expira_minutos": 15,
-            "correo_enviado_real": enviado_real,
-            "pin_simulado": pin
+            "correo_enviado_real": enviado_real
         }
     )
 
