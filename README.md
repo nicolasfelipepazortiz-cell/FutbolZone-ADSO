@@ -30,48 +30,45 @@ Antes de comenzar, asegúrate de tener instalado:
 
 ## 🚀 Paso a Paso: Instalación y Ejecución
 
-### 1. Iniciar el Backend (API REST en FastAPI)
+## 🚀 Cómo Ejecutar el Proyecto
 
-Abre una terminal (PowerShell o CMD) en la raíz del proyecto `Proyecto_Nicolas_3407178` y ejecuta los siguientes comandos:
+### 🌟 Opción 1: Inicio Automático con 1 Solo Clic (Recomendada)
+En la carpeta principal del proyecto, simplemente haz doble clic en el archivo:
+👉 **`iniciar_proyecto.bat`**
 
-```bash
-# 1. Entrar a la carpeta del backend
-cd backend
+Este archivo abrirá automáticamente:
+1. La ventana del **Backend en FastAPI** (puerto 5000).
+2. La ventana del **Frontend en Vite React** (puerto 5173).
+3. Tu navegador web en **`http://localhost:5173`**.
 
-# 2. Instalar las dependencias de Python
-pip install -r requirements.txt
-
-# 3. Iniciar el servidor backend de FastAPI (escucha en el puerto 5000)
-python main.py
-```
-
-*Nota:* Alternativamente puedes usar `uvicorn main:app --reload --port 5000`.
-
-La API estará lista y accesible en:
-- **API URL Base:** `http://localhost:5000`
-- **Documentación Interactiva Swagger UI:** `http://localhost:5000/docs`
-
-> 💡 **Base de Datos Automática:** Al arrancar el backend por primera vez, se creará la base de datos y se sembrarán automáticamente los datos de prueba (Admin, Cliente, Canchas y Empleados).
+*(Para apagar todo cuando termines, solo haz doble clic en **`detener_proyecto.bat`**).*
 
 ---
 
-### 2. Iniciar el Frontend (React + Vite + TypeScript)
+### 💻 Opción 2: Inicio Manual en Dos Terminales
 
-Abre **otra ventana o pestaña de terminal** en la raíz del proyecto `Proyecto_Nicolas_3407178` y ejecuta:
+Dado que es un proyecto **Fullstack** (Backend en Python y Frontend en React), debes tener **DOS terminales abiertas al mismo tiempo**:
 
+#### 📌 Terminal 1 — Backend (FastAPI):
 ```bash
-# 1. Entrar a la carpeta del frontend
+# 1. Entrar a la carpeta backend
+cd backend
+
+# 2. Iniciar el servidor
+python main.py
+```
+> El backend quedará corriendo en: `http://localhost:5000` (Docs: `http://localhost:5000/docs`).
+
+#### 📌 Terminal 2 — Frontend (React Vite):
+*Abre una **NUEVA** pestaña o ventana de terminal (no uses la misma del backend)*:
+```bash
+# 1. Entrar a la carpeta frontend
 cd frontend
 
-# 2. Instalar los paquetes de Node.js
-npm install
-
-# 3. Iniciar el servidor de desarrollo de Vite
+# 2. Iniciar el servidor web
 npm run dev
 ```
-
-El servidor web abrirá o mostrará la URL de acceso local, usualmente:
-- **Frontend App:** `http://localhost:5173` (o `http://localhost:5174`)
+> El frontend quedará disponible en: `http://localhost:5173`.
 
 ---
 
