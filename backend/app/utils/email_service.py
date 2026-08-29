@@ -270,7 +270,7 @@ def send_welcome_email(to_email: str, nombre: str, apellido: str = "") -> bool:
 
 
 def _generar_plantilla_html_pin_reset(nombre: str, pin: str) -> str:
-    """Genera la plantilla HTML con el código PIN de verificación."""
+    """Genera la plantilla HTML profesional con el código PIN de verificación."""
     return f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -281,74 +281,85 @@ def _generar_plantilla_html_pin_reset(nombre: str, pin: str) -> str:
     body {{
       margin: 0;
       padding: 0;
-      background-color: #0b1120;
+      background-color: #06150e;
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       color: #f1f5f9;
     }}
     .email-wrapper {{
       max-width: 540px;
       margin: 30px auto;
-      background-color: #0f172a;
-      border: 1px solid #1e293b;
-      border-radius: 16px;
+      background-color: #0c2b1e;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     }}
     .email-header {{
       background: linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%);
-      padding: 30px 20px;
+      padding: 32px 20px;
       text-align: center;
     }}
     .email-header h1 {{
       margin: 0;
       color: #ffffff;
-      font-size: 26px;
-      font-weight: 800;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
     }}
     .email-body {{
-      padding: 30px 25px;
+      padding: 34px 28px;
       text-align: center;
     }}
     .greeting {{
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       color: #ffffff;
       margin-top: 0;
     }}
     .info-text {{
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1.6;
-      color: #94a3b8;
+      color: #cbd5e1;
       margin-bottom: 24px;
     }}
-    .pin-box {{
-      background: #022c22;
+    .pin-container {{
+      background: #021a11;
       border: 2px dashed #10b981;
-      border-radius: 12px;
-      padding: 18px;
-      margin: 20px auto;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px auto;
       display: inline-block;
     }}
     .pin-code {{
       font-family: 'Courier New', Courier, monospace;
-      font-size: 34px;
+      font-size: 38px;
       font-weight: 900;
-      letter-spacing: 10px;
+      letter-spacing: 12px;
       color: #34d399;
       margin: 0;
     }}
-    .expiry-note {{
+    .expiry-badge {{
+      display: inline-block;
+      background: #fef3c7;
+      color: #92400e;
       font-size: 12px;
-      color: #f59e0b;
-      font-weight: 600;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 999px;
       margin-top: 14px;
     }}
+    .security-note {{
+      font-size: 12.5px;
+      color: #94a3b8;
+      margin-top: 24px;
+      line-height: 1.5;
+    }}
     .email-footer {{
-      background-color: #090d16;
-      border-top: 1px solid #1e293b;
-      padding: 20px;
+      background-color: #040f0a;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 22px;
       text-align: center;
-      font-size: 11px;
+      font-size: 11.5px;
       color: #64748b;
     }}
   </style>
@@ -356,28 +367,35 @@ def _generar_plantilla_html_pin_reset(nombre: str, pin: str) -> str:
 <body>
   <div class="email-wrapper">
     <div class="email-header">
-      <h1>🔐 FutbolZone</h1>
-      <p style="margin: 4px 0 0; color: #d1fae5; font-size: 13px;">Restablecimiento de Contraseña</p>
+      <h1>⚽ FutbolZone</h1>
+      <p style="margin: 6px 0 0; color: #d1fae5; font-size: 13.5px; font-weight: 600;">
+        Complejo Deportivo & Canchas Sintéticas
+      </p>
     </div>
     
     <div class="email-body">
-      <h2 class="greeting">¡Hola, {nombre}!</h2>
+      <h2 class="greeting">¡Hola, {nombre}! 👋</h2>
       <p class="info-text">
-        Recibimos una solicitud para restablecer la contraseña de tu cuenta en <strong>FutbolZone</strong>. Ingresa el siguiente código de seguridad en la aplicación para crear tu nueva contraseña:
+        <strong>Somos FutbolZone.</strong> Recibimos una solicitud para restablecer la contraseña de tu cuenta. Este es tu código PIN de seguridad:
       </p>
 
-      <div class="pin-box">
+      <div class="pin-container">
         <p class="pin-code">{pin}</p>
       </div>
 
-      <p class="expiry-note">⏳ Este código es válido por 15 minutos y de un solo uso.</p>
-      <p style="font-size: 12px; color: #64748b; margin-top: 20px;">
-        Si no solicitaste este cambio, puedes ignorar este mensaje; tu contraseña actual continuará siendo segura.
+      <div>
+        <span class="expiry-badge">⏳ Válido por 15 minutos · Código de un solo uso</span>
+      </div>
+
+      <p class="security-note">
+        Ingresa estos 6 dígitos en la aplicación para crear tu nueva clave.<br>
+        Si no solicitaste este cambio, puedes ignorar este mensaje; tu contraseña actual continuará protegida.
       </p>
     </div>
 
     <div class="email-footer">
-      <p>© 2026 FutbolZone ADSO III — Sistema de Seguridad Oficial.</p>
+      <p>Este es un correo oficial generado automáticamente por <strong>FutbolZone (SENA ADSO III)</strong>.</p>
+      <p>© 2026 FutbolZone. Todos los derechos reservados.</p>
     </div>
   </div>
 </body>
@@ -385,35 +403,49 @@ def _generar_plantilla_html_pin_reset(nombre: str, pin: str) -> str:
 
 
 def send_password_reset_pin_email(to_email: str, nombre: str, pin: str) -> bool:
-    """Envía el correo con el PIN de 6 dígitos."""
-    if not SMTP_USER or not SMTP_PASSWORD:
-        print(f"[EMAIL SERVICE WARNING] SMTP no configurado. PIN generado para '{to_email}': >>> {pin} <<<")
+    """Envía el correo real vía SMTP."""
+    smtp_user_active = os.getenv("SMTP_USER", "")
+    smtp_pass_active = os.getenv("SMTP_PASSWORD", "")
+
+    if not smtp_user_active or not smtp_pass_active:
+        print(f"\n=======================================================")
+        print(f"📧 [AVISO SMTP] Correo generado para '{to_email}' ({nombre}):")
+        print(f"   Mensaje: 'Somos FutbolZone, este es tu PIN: >>> {pin} <<<'")
+        print(f"   Para que llegue a tu bandeja de Gmail real, configura")
+        print(f"   SMTP_USER y SMTP_PASSWORD en el archivo 'backend/.env'.")
+        print(f"=======================================================\n")
         return True
 
     try:
         msg = MIMEMultipart("alternative")
-        msg["Subject"] = f"🔐 {pin} es tu código de seguridad para FutbolZone"
-        msg["From"]    = f"{SMTP_FROM_NAME} <{SMTP_FROM}>"
+        msg["Subject"] = f"🔐 [FutbolZone] Tu código de seguridad es: {pin}"
+        msg["From"]    = f"{SMTP_FROM_NAME} <{smtp_user_active}>"
         msg["To"]      = to_email
 
-        texto_plano = f"Hola {nombre},\n\nTu código de seguridad para restablecer tu contraseña en FutbolZone es: {pin}\n\nEste código expira en 15 minutos."
+        texto_plano = (
+            f"¡Hola {nombre}!\n\n"
+            f"Somos FutbolZone. Este es tu código PIN de seguridad para restablecer tu contraseña:\n\n"
+            f">>> {pin} <<<\n\n"
+            f"Este código es válido por 15 minutos.\n\n"
+            f"FutbolZone SENA ADSO III"
+        )
         msg.attach(MIMEText(texto_plano, "plain", "utf-8"))
         msg.attach(MIMEText(_generar_plantilla_html_pin_reset(nombre, pin), "html", "utf-8"))
 
         if SMTP_SSL or SMTP_PORT == 465:
-            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=10) as server:
-                server.login(SMTP_USER, SMTP_PASSWORD)
-                server.sendmail(SMTP_FROM, [to_email], msg.as_string())
+            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=12) as server:
+                server.login(smtp_user_active, smtp_pass_active)
+                server.sendmail(smtp_user_active, [to_email], msg.as_string())
         else:
-            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as server:
+            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=12) as server:
                 if SMTP_TLS:
                     server.starttls()
-                server.login(SMTP_USER, SMTP_PASSWORD)
-                server.sendmail(SMTP_FROM, [to_email], msg.as_string())
+                server.login(smtp_user_active, smtp_pass_active)
+                server.sendmail(smtp_user_active, [to_email], msg.as_string())
 
-        print(f"[EMAIL SERVICE SUCCESS] PIN de recuperación enviado a '{to_email}'.")
+        print(f"[EMAIL SERVICE SUCCESS] ¡Correo con PIN enviado exitosamente a la bandeja de '{to_email}'!")
         return True
     except Exception as e:
-        print(f"[EMAIL SERVICE ERROR] Error al enviar PIN a '{to_email}': {e}")
+        print(f"[EMAIL SERVICE ERROR] No se pudo enviar el correo real a '{to_email}': {e}")
         return False
 

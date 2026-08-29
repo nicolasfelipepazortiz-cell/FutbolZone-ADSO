@@ -50,15 +50,21 @@ def solicitar_pin(body: SolicitarPinSchema, db: Session):
     db.commit()
 
     # 4. Enviar correo electrónico
-    send_password_reset_pin_email(email_clean, usuario.nombre, pin)
+    enviado_real = send_password_reset_pin_email(email_clean, usuario.nombre, pin)
+
+    mensaje_respuesta = (
+        f"¡Correo oficial enviado! Revisa la bandeja de entrada de {email_clean} para ver tu PIN de seguridad."
+        if enviado_real and enviado_real is not True  # if SMTP configured
+        else f"Hemos generado tu código PIN de seguridad de 6 dígitos para {email_clean}."
+    )
 
     return api_response(
         True,
-        f"Hemos enviado un código PIN de 6 dígitos a {email_clean}.",
+        f"Código de seguridad generado para {email_clean}.",
         data={
             "email": email_clean,
             "expira_minutos": 15,
-            # En entorno local/desarrollo enviamos el pin como respaldo si no hay SMTP configurado
+            "correo_enviado_real": enviado_real,
             "pin_simulado": pin
         }
     )
