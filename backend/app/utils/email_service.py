@@ -267,3 +267,153 @@ def send_welcome_email(to_email: str, nombre: str, apellido: str = "") -> bool:
     except Exception as e:
         print(f"[EMAIL SERVICE ERROR] No se pudo enviar el correo a '{to_email}': {e}")
         return False
+
+
+def _generar_plantilla_html_pin_reset(nombre: str, pin: str) -> str:
+    """Genera la plantilla HTML con el código PIN de verificación."""
+    return f"""<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Código de Seguridad - FutbolZone</title>
+  <style>
+    body {{
+      margin: 0;
+      padding: 0;
+      background-color: #0b1120;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #f1f5f9;
+    }}
+    .email-wrapper {{
+      max-width: 540px;
+      margin: 30px auto;
+      background-color: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    }}
+    .email-header {{
+      background: linear-gradient(135deg, #059669 0%, #10b981 50%, #047857 100%);
+      padding: 30px 20px;
+      text-align: center;
+    }}
+    .email-header h1 {{
+      margin: 0;
+      color: #ffffff;
+      font-size: 26px;
+      font-weight: 800;
+    }}
+    .email-body {{
+      padding: 30px 25px;
+      text-align: center;
+    }}
+    .greeting {{
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 0;
+    }}
+    .info-text {{
+      font-size: 14px;
+      line-height: 1.6;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }}
+    .pin-box {{
+      background: #022c22;
+      border: 2px dashed #10b981;
+      border-radius: 12px;
+      padding: 18px;
+      margin: 20px auto;
+      display: inline-block;
+    }}
+    .pin-code {{
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: 10px;
+      color: #34d399;
+      margin: 0;
+    }}
+    .expiry-note {{
+      font-size: 12px;
+      color: #f59e0b;
+      font-weight: 600;
+      margin-top: 14px;
+    }}
+    .email-footer {{
+      background-color: #090d16;
+      border-top: 1px solid #1e293b;
+      padding: 20px;
+      text-align: center;
+      font-size: 11px;
+      color: #64748b;
+    }}
+  </style>
+</head>
+<body>
+  <div class="email-wrapper">
+    <div class="email-header">
+      <h1>🔐 FutbolZone</h1>
+      <p style="margin: 4px 0 0; color: #d1fae5; font-size: 13px;">Restablecimiento de Contraseña</p>
+    </div>
+    
+    <div class="email-body">
+      <h2 class="greeting">¡Hola, {nombre}!</h2>
+      <p class="info-text">
+        Recibimos una solicitud para restablecer la contraseña de tu cuenta en <strong>FutbolZone</strong>. Ingresa el siguiente código de seguridad en la aplicación para crear tu nueva contraseña:
+      </p>
+
+      <div class="pin-box">
+        <p class="pin-code">{pin}</p>
+      </div>
+
+      <p class="expiry-note">⏳ Este código es válido por 15 minutos y de un solo uso.</p>
+      <p style="font-size: 12px; color: #64748b; margin-top: 20px;">
+        Si no solicitaste este cambio, puedes ignorar este mensaje; tu contraseña actual continuará siendo segura.
+      </p>
+    </div>
+
+    <div class="email-footer">
+      <p>© 2026 FutbolZone ADSO III — Sistema de Seguridad Oficial.</p>
+    </div>
+  </div>
+</body>
+</html>"""
+
+
+def send_password_reset_pin_email(to_email: str, nombre: str, pin: str) -> bool:
+    """Envía el correo con el PIN de 6 dígitos."""
+    if not SMTP_USER or not SMTP_PASSWORD:
+        print(f"[EMAIL SERVICE WARNING] SMTP no configurado. PIN generado para '{to_email}': >>> {pin} <<<")
+        return True
+
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = f"🔐 {pin} es tu código de seguridad para FutbolZone"
+        msg["From"]    = f"{SMTP_FROM_NAME} <{SMTP_FROM}>"
+        msg["To"]      = to_email
+
+        texto_plano = f"Hola {nombre},\n\nTu código de seguridad para restablecer tu contraseña en FutbolZone es: {pin}\n\nEste código expira en 15 minutos."
+        msg.attach(MIMEText(texto_plano, "plain", "utf-8"))
+        msg.attach(MIMEText(_generar_plantilla_html_pin_reset(nombre, pin), "html", "utf-8"))
+
+        if SMTP_SSL or SMTP_PORT == 465:
+            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, timeout=10) as server:
+                server.login(SMTP_USER, SMTP_PASSWORD)
+                server.sendmail(SMTP_FROM, [to_email], msg.as_string())
+        else:
+            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as server:
+                if SMTP_TLS:
+                    server.starttls()
+                server.login(SMTP_USER, SMTP_PASSWORD)
+                server.sendmail(SMTP_FROM, [to_email], msg.as_string())
+
+        print(f"[EMAIL SERVICE SUCCESS] PIN de recuperación enviado a '{to_email}'.")
+        return True
+    except Exception as e:
+        print(f"[EMAIL SERVICE ERROR] Error al enviar PIN a '{to_email}': {e}")
+        return False
+

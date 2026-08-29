@@ -6,3 +6,4 @@ from app.models.pago_model import PagoModel
 from app.models.horario_model import HorarioModel
 from app.models.empleado_model import EmpleadoModel
 from app.models.resena_model import ResenaModel
+from app.models.password_reset_model import PasswordResetPinModel

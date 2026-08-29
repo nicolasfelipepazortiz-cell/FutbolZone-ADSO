@@ -5,6 +5,7 @@ import { api, setStoredUser } from "../services/api";
 import TicketReservaModal from "./TicketReservaModal";
 import TorneosView from "./TorneosView";
 import TablonRetos from "./TablonRetos";
+import RecuperarPasswordModal from "./RecuperarPasswordModal";
 
 interface DashboardClienteProps {
   usuario: any;
@@ -28,6 +29,8 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
   const [misReservas, setMisReservas] = useState<any[]>([]);
   const [cargando, setCargando] = useState<boolean>(true);
   const [reservaParaTicket, setReservaParaTicket] = useState<any | null>(null);
+  const [mensaje, setMensaje] = useState<string | null>(null);
+  const [mostrarModalRecuperar, setMostrarModalRecuperar] = useState<boolean>(false);
 
   // Estados de edición de perfil
   const [nombre, setNombre] = useState<string>(usuario?.nombre || "");
@@ -35,7 +38,6 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
   const [telefono, setTelefono] = useState<string>(usuario?.telefono || "");
   const [guardandoPerfil, setGuardandoPerfil] = useState<boolean>(false);
   const [mensajePerfil, setMensajePerfil] = useState<{ texto: string; tipo: "exito" | "error" } | null>(null);
-  const [mensaje, setMensaje] = useState<string | null>(null);
 
   // Foto de perfil / Avatar
   const [avatarUrl, setAvatarUrl] = useState<string>(() => {
@@ -768,9 +770,17 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
                 </div>
               )}
 
-              <div className="fz-form-actions" style={{ marginTop: "20px" }}>
+              <div className="fz-form-actions" style={{ marginTop: "20px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
                 <button type="submit" className="fz-btn-primary" disabled={guardandoPerfil}>
                   {guardandoPerfil ? "Guardando cambios..." : "Guardar Cambios"}
+                </button>
+                <button
+                  type="button"
+                  className="fz-btn-outline"
+                  onClick={() => setMostrarModalRecuperar(true)}
+                  title="Cambiar contraseña solicitando un código PIN de verificación a tu correo"
+                >
+                  🔒 Cambiar Contraseña con PIN de Correo
                 </button>
               </div>
             </form>
@@ -784,6 +794,15 @@ function DashboardCliente({ usuario, onLogout, onGoToBooking }: DashboardCliente
           reserva={reservaParaTicket}
           usuario={usuario}
           onClose={() => setReservaParaTicket(null)}
+        />
+      )}
+
+      {/* Modal Cambio de Contraseña por PIN */}
+      {mostrarModalRecuperar && (
+        <RecuperarPasswordModal
+          emailInicial={usuario?.email || ""}
+          onClose={() => setMostrarModalRecuperar(false)}
+          onSuccessLogin={() => setMostrarModalRecuperar(false)}
         />
       )}
     </div>

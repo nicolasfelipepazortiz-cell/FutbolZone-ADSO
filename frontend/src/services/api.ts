@@ -151,4 +151,21 @@ export const api = {
       method: "POST",
       body: JSON.stringify(datos),
     }),
+
+  // Recuperación y Cambio de Contraseña por PIN
+  solicitarPinRecuperacion: (email: string) =>
+    request<any>("/auth/recuperar-password/solicitar-pin", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+    }),
+  verificarPinRecuperacion: (email: string, pin: string) =>
+    request<any>("/auth/recuperar-password/verificar-pin", {
+      method: "POST",
+      body: JSON.stringify({ email, pin }),
+    }),
+  cambiarPasswordConPin: (datos: { email: string; pin: string; nueva_password: string }) =>
+    request<any>("/auth/recuperar-password/cambiar-password", {
+      method: "POST",
+      body: JSON.stringify(datos),
+    }),
 };

@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import "./Login.css";
 import { api, setAuthToken, setStoredUser } from "../services/api";
+import RecuperarPasswordModal from "./RecuperarPasswordModal";
 
 interface LoginProps {
   onLoginSuccess: (user: any) => void;
@@ -14,6 +15,7 @@ function Login({ onLoginSuccess, onSwitchToRegister, onGoHome }: LoginProps) {
   const [mostrarContrasena, setMostrarContrasena] = useState<boolean>(false);
   const [cargando, setCargando] = useState<boolean>(false);
   const [mensaje, setMensaje] = useState<{ texto: string; tipo: "exito" | "error" } | null>(null);
+  const [mostrarModalRecuperar, setMostrarModalRecuperar] = useState<boolean>(false);
 
   const manejarCorreo = (e: ChangeEvent<HTMLInputElement>) => setCorreo(e.target.value);
   const manejarContrasena = (e: ChangeEvent<HTMLInputElement>) => setContrasena(e.target.value);
@@ -129,6 +131,16 @@ function Login({ onLoginSuccess, onSwitchToRegister, onGoHome }: LoginProps) {
                   {mostrarContrasena ? "👁️‍🗨️" : "👁️"}
                 </button>
               </div>
+
+              <div style={{ textAlign: "right", marginTop: "6px" }}>
+                <button
+                  type="button"
+                  onClick={() => setMostrarModalRecuperar(true)}
+                  style={{ background: "none", border: "none", color: "#10b981", fontSize: "12px", fontWeight: 700, cursor: "pointer", padding: 0 }}
+                >
+                  ¿Olvidaste tu contraseña? Restablécela aquí
+                </button>
+              </div>
             </div>
 
             {mensaje && (
@@ -154,6 +166,15 @@ function Login({ onLoginSuccess, onSwitchToRegister, onGoHome }: LoginProps) {
           )}
         </div>
       </div>
+
+      {/* Modal de Recuperación con PIN */}
+      {mostrarModalRecuperar && (
+        <RecuperarPasswordModal
+          emailInicial={correo}
+          onClose={() => setMostrarModalRecuperar(false)}
+          onSuccessLogin={() => setMostrarModalRecuperar(false)}
+        />
+      )}
     </section>
   );
 }
