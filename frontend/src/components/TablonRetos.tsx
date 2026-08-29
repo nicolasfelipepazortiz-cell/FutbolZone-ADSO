@@ -17,6 +17,53 @@ interface Convocatoria {
   jugadoresUnidos: string[];
 }
 
+const STORAGE_KEY = "fz_convocatorias_retos_v3";
+
+const CONVOCATORIAS_INICIALES: Convocatoria[] = [
+  {
+    id: "ret_1",
+    organizador: "Santiago Rodríguez (Capitán)",
+    organizadorEmail: "santiago@futbolzone.com",
+    cancha: "Cancha Fútbol 5 (Central)",
+    fecha: "Hoy",
+    hora: "19:00 - 20:00",
+    cuposTotales: 10,
+    cuposOcupados: 4,
+    nivel: "Amistoso / Todos los niveles",
+    posicionBuscada: "1 Volante y Delanteros",
+    descripcion: "Nos faltan 6 jugadores para armar el 5 vs 5 de la noche. Partido con buena onda y tercer tiempo.",
+    jugadoresUnidos: ["Santiago R.", "Camilo V.", "David K.", "Andrés M."],
+  },
+  {
+    id: "ret_2",
+    organizador: "Mateo Gómez",
+    organizadorEmail: "mateo@futbolzone.com",
+    cancha: "Cancha Fútbol 7 (Norte)",
+    fecha: "Mañana",
+    hora: "20:00 - 21:00",
+    cuposTotales: 14,
+    cuposOcupados: 6,
+    nivel: "Competitivo / Reto",
+    posicionBuscada: "1 Arquero fijo y 2 Defensas",
+    descripcion: "Reto nocturno con iluminación LED de alta potencia. Buscamos arquero y defensas con buen ritmo.",
+    jugadoresUnidos: ["Mateo G.", "Felipe P.", "Daniel C.", "Oscar L.", "Esteban S.", "Javier R."],
+  },
+  {
+    id: "ret_3",
+    organizador: "Carlos Díaz",
+    organizadorEmail: "cliente@futbolzone.com",
+    cancha: "Cancha Fútbol 11 (Sur)",
+    fecha: "Domingo",
+    hora: "17:00 - 18:30",
+    cuposTotales: 22,
+    cuposOcupados: 12,
+    nivel: "Amistoso / Recreativo",
+    posicionBuscada: "Defensas, Mediocampistas y Extremos",
+    descripcion: "Partido dominical en cancha reglamentaria completa. ¡Cualquiera puede sumarse a jugar!",
+    jugadoresUnidos: ["Carlos D.", "Juan M.", "David R.", "Oscar L.", "Mateo T.", "Diego B.", "Andrés V.", "Lucas H.", "Gabriel F.", "Samuel P.", "Julián N.", "Mario C."],
+  },
+];
+
 function TablonRetos() {
   const usuario = getStoredUser();
   const [convocatorias, setConvocatorias] = useState<Convocatoria[]>([]);
@@ -24,10 +71,10 @@ function TablonRetos() {
   const [filtroCancha, setFiltroCancha] = useState<string>("todas");
 
   // Estados para nueva convocatoria
-  const [cancha, setCancha] = useState<string>("Cancha Fútbol 5");
+  const [cancha, setCancha] = useState<string>("Cancha Fútbol 5 (Central)");
   const [fecha, setFecha] = useState<string>(new Date().toISOString().split("T")[0]);
   const [hora, setHora] = useState<string>("19:00");
-  const [cuposTotales, setCuposTotales] = useState<number>(4);
+  const [cuposTotales, setCuposTotales] = useState<number>(10);
   const [posicionBuscada, setPosicionBuscada] = useState<string>("1 Arquero y 2 Defensas");
   const [nivel, setNivel] = useState<string>("Amistoso / Todos los niveles");
   const [descripcion, setDescripcion] = useState<string>("");
@@ -37,7 +84,13 @@ function TablonRetos() {
   }, []);
 
   const cargarConvocatorias = () => {
-    const guardadas = localStorage.getItem("fz_convocatorias_retos");
+    // Limpiar claves antiguas en caso de que existan
+    try {
+      localStorage.removeItem("fz_convocatorias_retos");
+      localStorage.removeItem("fz_convocatorias_retos_v2");
+    } catch {}
+
+    const guardadas = localStorage.getItem(STORAGE_KEY);
     if (guardadas) {
       try {
         const parsed = JSON.parse(guardadas);
@@ -48,74 +101,35 @@ function TablonRetos() {
       } catch {}
     }
 
-    const iniciales: Convocatoria[] = [
-      {
-        id: "ret_1",
-        organizador: "Santiago Rodríguez",
-        organizadorEmail: "santiago@futbolzone.com",
-        cancha: "Cancha Fútbol 5 (Central)",
-        fecha: "Hoy",
-        hora: "19:00 - 20:00",
-        cuposTotales: 5,
-        cuposOcupados: 2,
-        nivel: "Amistoso / Medio",
-        posicionBuscada: "1 Volante o Delantero",
-        descripcion: "Nos faltan 3 jugadores para armar el 5 vs 5 de la noche. Partido con buena onda y tercer tiempo.",
-        jugadoresUnidos: ["Santiago R.", "Camilo V."],
-      },
-      {
-        id: "ret_2",
-        organizador: "Mateo Gómez (Capitán)",
-        organizadorEmail: "mateo@futbolzone.com",
-        cancha: "Cancha Fútbol 7 (Norte)",
-        fecha: "Mañana",
-        hora: "20:00 - 21:00",
-        cuposTotales: 7,
-        cuposOcupados: 3,
-        nivel: "Competitivo / Reto",
-        posicionBuscada: "Arquero y 1 Lateral",
-        descripcion: "Buscamos arquero fijo y lateral con buen estado físico para reto nocturno con iluminación LED.",
-        jugadoresUnidos: ["Mateo G.", "Andrés C.", "Felipe P."],
-      },
-      {
-        id: "ret_3",
-        organizador: "Carlos Díaz",
-        organizadorEmail: "cliente@futbolzone.com",
-        cancha: "Cancha Fútbol 11 (Sur)",
-        fecha: "Domingo",
-        hora: "17:00 - 18:30",
-        cuposTotales: 11,
-        cuposOcupados: 6,
-        nivel: "Amistoso / Recreativo",
-        posicionBuscada: "Defensas y Mediocampistas",
-        descripcion: "Partido de fin de semana en cancha reglamentaria. ¡Todos son bienvenidos a jugar!",
-        jugadoresUnidos: ["Carlos D.", "Juan M.", "David R.", "Esteban S.", "Oscar L.", "Mateo T."],
-      },
-    ];
-
-    setConvocatorias(iniciales);
-    localStorage.setItem("fz_convocatorias_retos", JSON.stringify(iniciales));
+    setConvocatorias(CONVOCATORIAS_INICIALES);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(CONVOCATORIAS_INICIALES));
   };
 
   const guardar = (nuevas: Convocatoria[]) => {
     setConvocatorias(nuevas);
-    localStorage.setItem("fz_convocatorias_retos", JSON.stringify(nuevas));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(nuevas));
+  };
+
+  const reiniciarConvocatorias = () => {
+    if (!confirm("¿Deseas restaurar la lista de convocatorias a su estado original con todos los cupos libres?")) return;
+    guardar(CONVOCATORIAS_INICIALES);
+    alert("¡Convocatorias restauradas con éxito! ⚽");
   };
 
   const toggleUnirseAConvocatoria = (retId: string) => {
-    if (!usuario) {
-      alert("Por favor inicia sesión con tu cuenta para unirte a este partido.");
-      return;
-    }
+    let miNombre = usuario ? `${usuario.nombre || "Jugador"} ${usuario.apellido || ""}`.trim() : "";
 
-    const miNombre = `${usuario.nombre || "Jugador"} ${usuario.apellido || ""}`.trim();
+    if (!miNombre) {
+      const nombreIngresado = prompt("⚽ Ingresa tu nombre o apodo para unirte a la nómina de este partido:");
+      if (!nombreIngresado || !nombreIngresado.trim()) return;
+      miNombre = nombreIngresado.trim();
+    }
 
     const actualizadas = convocatorias.map((c) => {
       if (c.id === retId) {
         const yaEstaUnido = c.jugadoresUnidos.includes(miNombre);
 
         if (yaEstaUnido) {
-          // Salir del partido (liberar cupo)
           const confirmSalida = confirm(`¿Deseas salirte de la convocatoria de ${c.organizador}? Se liberará tu cupo.`);
           if (!confirmSalida) return c;
 
@@ -125,13 +139,12 @@ function TablonRetos() {
             jugadoresUnidos: c.jugadoresUnidos.filter((j) => j !== miNombre),
           };
         } else {
-          // Unirse al partido
           if (c.cuposOcupados >= c.cuposTotales) {
             alert("¡La nómina de este partido ya está completa!");
             return c;
           }
 
-          alert(`¡Excelente ${usuario.nombre}! Te has unido al partido de ${c.organizador}. ¡Prepara los guayos! ⚽`);
+          alert(`¡Excelente ${miNombre}! Te has unido al partido de ${c.organizador}. ¡Prepara los guayos! ⚽`);
           return {
             ...c,
             cuposOcupados: c.cuposOcupados + 1,
@@ -153,25 +166,26 @@ function TablonRetos() {
 
   const crearConvocatoria = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!usuario) {
-      alert("Debes iniciar sesión para publicar una convocatoria en el tablón.");
-      return;
-    }
+    let miNombre = usuario ? `${usuario.nombre || "Jugador"} ${usuario.apellido || ""}`.trim() : "";
 
-    const miNombre = `${usuario.nombre || "Jugador"} ${usuario.apellido || ""}`.trim();
+    if (!miNombre) {
+      const nombreIngresado = prompt("⚽ Ingresa tu nombre de organizador para publicar la convocatoria:");
+      if (!nombreIngresado || !nombreIngresado.trim()) return;
+      miNombre = nombreIngresado.trim();
+    }
 
     const nueva: Convocatoria = {
       id: `ret_${Date.now()}`,
       organizador: miNombre,
-      organizadorEmail: usuario.email || "",
+      organizadorEmail: usuario?.email || "",
       cancha,
       fecha,
       hora,
       cuposTotales: Number(cuposTotales),
-      cuposOcupados: 1, // El creador ya ocupa 1 cupo
+      cuposOcupados: 1, // El organizador ocupa 1 cupo
       nivel,
       posicionBuscada: posicionBuscada.trim() || "Cualquier posición",
-      descripcion: descripcion.trim() || "Partido amistoso buscando jugadores con buena vibra.",
+      descripcion: descripcion.trim() || "Partido abierto buscando completar equipo.",
       jugadoresUnidos: [miNombre],
     };
 
@@ -198,7 +212,7 @@ function TablonRetos() {
         <span className="section-badge">👥 Comunidad FutbolZone</span>
         <h2>📢 Tablón de Retos & Buscador de Jugadores</h2>
         <p>
-          ¿Te faltan jugadores para completar tu equipo? Explora los partidos abiertos con cupos disponibles o publica tu propia convocatoria.
+          ¿Te faltan jugadores para completar tu equipo? Explora los partidos con cupos disponibles y únete con un solo clic.
         </p>
 
         <div className="fz-retos-top-actions">
@@ -233,13 +247,23 @@ function TablonRetos() {
             </button>
           </div>
 
-          <button
-            type="button"
-            className="fz-btn-create-reto"
-            onClick={() => setMostrarForm(!mostrarForm)}
-          >
-            {mostrarForm ? "✕ Cerrar Formulario" : "➕ Publicar Convocatoria"}
-          </button>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+            <button
+              type="button"
+              className="fz-btn-create-reto"
+              onClick={() => setMostrarForm(!mostrarForm)}
+            >
+              {mostrarForm ? "✕ Cerrar Formulario" : "➕ Publicar Convocatoria"}
+            </button>
+            <button
+              type="button"
+              className="fz-btn-reset-retos"
+              onClick={reiniciarConvocatorias}
+              title="Restaurar lista original de partidos abiertos"
+            >
+              🔄 Restaurar Cupos
+            </button>
+          </div>
         </div>
       </div>
 
@@ -248,24 +272,24 @@ function TablonRetos() {
         <form onSubmit={crearConvocatoria} className="fz-form-reto-card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
             <h3 style={{ margin: 0, fontSize: "18px", color: "#0f172a" }}>
-              ⚡ Publicar Convocatoria / Búsqueda de Jugadores
+              ⚡ Publicar Convocatoria de Partido
             </h3>
             <span style={{ fontSize: "12px", color: "#10b981", fontWeight: 700 }}>
-              👤 Publicando como: {miNombreUsuario || "Usuario"}
+              👤 Publicando como: {miNombreUsuario || "Visitante"}
             </span>
           </div>
 
           <p style={{ fontSize: "13px", color: "#64748b", margin: "0 0 16px" }}>
-            Los demás usuarios podrán ver tu partido y unirse inmediatamente con un clic.
+            Los demás usuarios podrán ver tu partido y sumarse a la nómina de inmediato.
           </p>
 
           <div className="fz-form-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
             <div className="fz-field">
               <label>Cancha *</label>
               <select value={cancha} onChange={(e) => setCancha(e.target.value)}>
-                <option value="Cancha Fútbol 5 (Central)">Cancha Fútbol 5 (Central)</option>
-                <option value="Cancha Fútbol 7 (Norte)">Cancha Fútbol 7 (Norte)</option>
-                <option value="Cancha Fútbol 11 (Sur)">Cancha Fútbol 11 (Sur)</option>
+                <option value="Cancha Fútbol 5 (Central)">Cancha Fútbol 5 (Central - 10 Jugadores)</option>
+                <option value="Cancha Fútbol 7 (Norte)">Cancha Fútbol 7 (Norte - 14 Jugadores)</option>
+                <option value="Cancha Fútbol 11 (Sur)">Cancha Fútbol 11 (Sur - 22 Jugadores)</option>
               </select>
             </div>
 
@@ -280,7 +304,7 @@ function TablonRetos() {
             </div>
 
             <div className="fz-field">
-              <label>Cupos Totales del Equipo *</label>
+              <label>Capacidad Total del Partido (Jugadores) *</label>
               <input
                 type="number"
                 min={2}
@@ -312,10 +336,10 @@ function TablonRetos() {
           </div>
 
           <div className="fz-field" style={{ marginTop: "12px" }}>
-            <label>Mensaje o Reglas del Partido</label>
+            <label>Mensaje para la comunidad</label>
             <textarea
               rows={2}
-              placeholder="Detalles sobre el partido, petos, hidratación, tercer tiempo..."
+              placeholder="Detalles sobre el partido, hidratación, tercer tiempo..."
               value={descripcion}
               onChange={(e) => setDescripcion(e.target.value)}
             />
@@ -409,7 +433,7 @@ function TablonRetos() {
 
                 {c.jugadoresUnidos.length > 0 && (
                   <div className="fz-reto-roster">
-                    <span className="fz-meta-label">Jugadores Confirmados:</span>
+                    <span className="fz-meta-label">Jugadores Confirmados ({c.jugadoresUnidos.length}):</span>
                     <div className="fz-roster-tags">
                       {c.jugadoresUnidos.map((j, i) => (
                         <span key={i} className={`fz-player-tag ${j === miNombreUsuario ? "me" : ""}`}>
@@ -427,7 +451,7 @@ function TablonRetos() {
                   disabled={lleno && !yaUnido}
                 >
                   {yaUnido
-                    ? "✓ Ya estás registrado (Clic para salir)"
+                    ? "✓ Ya estás en este partido (Clic para salir)"
                     : lleno
                     ? "🔴 Nómina Completa"
                     : "⚽ ¡Me Uno al Partido!"}
