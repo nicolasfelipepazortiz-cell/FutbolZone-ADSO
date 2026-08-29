@@ -14,6 +14,7 @@ import NotificacionesPill from "./components/NotificacionesPill";
 import UbicacionMapa from "./components/UbicacionMapa";
 import AnuncioBanner from "./components/AnuncioBanner";
 import TablonRetos from "./components/TablonRetos";
+import ChatbotSoporte from "./components/ChatbotSoporte";
 import { getStoredUser, removeAuthToken } from "./services/api";
 
 type VistaActual = "landing" | "login" | "registro" | "reserva" | "admin_dashboard" | "client_dashboard";
@@ -235,7 +236,7 @@ function App() {
         />
 
         {/* TABLÓN DE RETOS / BUSCADOR DE JUGADORES */}
-        <TablonRetos />
+        <TablonRetos onRequireLogin={() => setVista("login")} />
 
         {/* QUIÉNES SOMOS */}
         <section id="quienes-somos" className="section quienes-section">
@@ -333,6 +334,9 @@ function App() {
         {/* UBICACIÓN Y MAPA GOOGLE MAPS */}
         <UbicacionMapa />
       </main>
+
+      {/* ASISTENTE VIRTUAL CHATBOT */}
+      <ChatbotSoporte />
 
       {/* BOTÓN FLOTANTE WHATSAPP */}
       <WhatsappFloat />
