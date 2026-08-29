@@ -162,10 +162,10 @@ function RecuperarPasswordModal({ emailInicial = "", onClose, onSuccessLogin }: 
   const fortaleza = calcularFortaleza(nuevaPassword);
 
   return (
-    <div className="fz-rec-modal-overlay">
-      <div className="fz-rec-modal-card">
+    <div className="fz-recovery-overlay">
+      <div className="fz-recovery-card">
         {/* Botón Cerrar */}
-        <button type="button" className="fz-rec-close-btn" onClick={onClose} title="Cerrar ventana">
+        <button type="button" className="btn-close-recovery" onClick={onClose} title="Cerrar ventana">
           ✕
         </button>
 
