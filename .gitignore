@@ -21,6 +21,7 @@ venv/
 backend/venv/
 env/
 .env
+backend/.env
 
 # Logs & System
 *.log
