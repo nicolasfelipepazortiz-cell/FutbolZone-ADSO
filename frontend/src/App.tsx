@@ -14,7 +14,6 @@ import NotificacionesPill from "./components/NotificacionesPill";
 import UbicacionMapa from "./components/UbicacionMapa";
 import AnuncioBanner from "./components/AnuncioBanner";
 import TablonRetos from "./components/TablonRetos";
-import ChatbotSoporte from "./components/ChatbotSoporte";
 import { getStoredUser, removeAuthToken } from "./services/api";
 
 type VistaActual = "landing" | "login" | "registro" | "reserva" | "admin_dashboard" | "client_dashboard";
@@ -238,37 +237,56 @@ function App() {
         {/* TABLÓN DE RETOS / BUSCADOR DE JUGADORES */}
         <TablonRetos onRequireLogin={() => setVista("login")} />
 
-        {/* QUIÉNES SOMOS */}
-        <section id="quienes-somos" className="section quienes-section">
+        {/* INNOVACIÓN TECNOLÓGICA & ARQUITECTURA DEL SOFTWARE (SENA ADSO III) */}
+        <section id="caracteristicas" className="section quienes-section">
           <div className="section-container">
-            <span className="section-badge">👥 Pasión Por El Deporte</span>
-            <h2>¿Quiénes Somos?</h2>
+            <span className="section-badge">💻 Proyecto Formativo · SENA ADSO III Trimestre</span>
+            <h2>⚡ Innovación Tecnológica & Arquitectura del Software</h2>
             <p className="quienes-intro">
-              Somos <strong>FutbolZone</strong>, el centro deportivo preferido de la ciudad dedicado a conectar amigos, familias y deportistas mediante la mejor experiencia futbolística en canchas sintéticas.
+              <strong>FutbolZone</strong> es una plataforma tecnológica integral desarrollada con arquitectura moderna Full-Stack para digitalizar la administración de complejos deportivos, reservas en tiempo real, analítica ejecutiva y comunidad de jugadores.
             </p>
 
-            <div className="quienes-grid">
+            {/* BADGES DEL STACK TECNOLÓGICO */}
+            <div className="fz-tech-stack-row">
+              <span className="fz-tech-badge">⚡ FastAPI (Python 3.14)</span>
+              <span className="fz-tech-badge">⚛️ React + TypeScript</span>
+              <span className="fz-tech-badge">⚡ Vite 8 Build System</span>
+              <span className="fz-tech-badge">🔐 JWT + Bcrypt Hashing</span>
+              <span className="fz-tech-badge">✉️ SMTP Real (Gmail OTP)</span>
+              <span className="fz-tech-badge">📊 SheetJS Native Excel (.xlsx)</span>
+              <span className="fz-tech-badge">🗄️ SQLAlchemy ORM</span>
+            </div>
+
+            <div className="quienes-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", marginTop: "28px" }}>
               <div className="quienes-card">
-                <div className="quienes-icon">🎯</div>
-                <h3>Nuestra Misión</h3>
+                <div className="quienes-icon">⏱️</div>
+                <h3>Motor de Turnos en Vivo</h3>
                 <p>
-                  Ofrecer instalaciones impecables y un software de reservas digital en tiempo real que garantice rapidez, comodidad y seguridad para cada partido.
+                  Algoritmo inteligente de validación horaria que previene solapamientos y calcula liquidaciones dinámicas según la jornada y duración de la reserva.
                 </p>
               </div>
 
               <div className="quienes-card">
-                <div className="quienes-icon">🌱</div>
-                <h3>Calidad Garantizada</h3>
+                <div className="quienes-icon">🎟️</div>
+                <h3>Tickets QR Imprimibles</h3>
                 <p>
-                  Césped sintético con amortiguación anti-impacto, Iluminación LED de estadio y vestuarios con agua caliente mantenidos bajo los más altos estándares.
+                  Generación instantánea de tickets de reserva digitales listos para imprimir o guardar en PDF con código QR de acceso rápido a la cancha.
                 </p>
               </div>
 
               <div className="quienes-card">
-                <div className="quienes-icon">⚡</div>
-                <h3>Innovación Digital</h3>
+                <div className="quienes-icon">📊</div>
+                <h3>Reportes Nativos en Excel</h3>
                 <p>
-                  Reservas en 3 simples pasos, notificaciones por correo, control de torneos y soporte de acceso persistente para nuestros usuarios.
+                  Exportación ejecutiva en formato <code>.xlsx</code> con fórmulas de recaudación, historial de jugadores y tablas de posiciones de torneos.
+                </p>
+              </div>
+
+              <div className="quienes-card">
+                <div className="quienes-icon">🔐</div>
+                <h3>Seguridad OTP por Correo</h3>
+                <p>
+                  Restablecimiento seguro de contraseñas mediante PIN criptográfico de 6 dígitos con vigencia de 15 minutos conectado a servidores SMTP reales.
                 </p>
               </div>
             </div>
@@ -334,9 +352,6 @@ function App() {
         {/* UBICACIÓN Y MAPA GOOGLE MAPS */}
         <UbicacionMapa />
       </main>
-
-      {/* ASISTENTE VIRTUAL CHATBOT */}
-      <ChatbotSoporte />
 
       {/* BOTÓN FLOTANTE WHATSAPP */}
       <WhatsappFloat />

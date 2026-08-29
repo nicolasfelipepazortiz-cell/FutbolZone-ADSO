@@ -18,7 +18,7 @@ function Navegacion({ usuario, onNavigateToDashboard, tema = "claro", onToggleTe
           <a href="#canchas" className="nav-link">Canchas</a>
         </li>
         <li>
-          <a href="#quienes-somos" className="nav-link">Quiénes Somos</a>
+          <a href="#caracteristicas" className="nav-link">Innovación & Software</a>
         </li>
         <li>
           <a href="#beneficios" className="nav-link">Beneficios</a>
